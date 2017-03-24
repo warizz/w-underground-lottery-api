@@ -14,9 +14,18 @@ const periods = [
 describe('period', () => {
 
   describe('POST /period', () => {
+
+    it('should get 401 code', (done) => {
+      request(app)
+        .post('/api/period')
+        .expect(401)
+        .end(() => done());
+    });
+
     it('should create an opened period', (done) => {
       request(app)
         .post('/api/period')
+        .set('x-access-token', 'xxxx')
         .send(periods[0])
         .expect(201)
         .end((err, res) => {
@@ -32,6 +41,7 @@ describe('period', () => {
     it('should close the period', (done) => {
       request(app)
         .post('/api/period')
+        .set('x-access-token', 'xxxx')
         .send(periods[0])
         .expect(200)
         .end((err, res) => {
