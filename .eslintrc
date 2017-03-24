@@ -1,0 +1,17 @@
+{
+  "plugins": [ "node" ],
+  "extends": [ "eslint:recommended", "plugin:node/recommended" ],
+  "rules": {
+    "comma-dangle": [ "error", "only-multiline" ],
+    "indent": [ "error", 2, { "MemberExpression": 1 } ],
+    "node/exports-style": [ "error", "module.exports" ],
+    "semi": [ "error", "always" ]
+  },
+  "globals": {
+    "describe": true,
+    "before": true,
+    "beforeEach": true,
+    "it": true,
+    "expect": true
+  }
+}
