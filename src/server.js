@@ -27,7 +27,8 @@ router.route('/period')
   .post(controllers.period.post);
 
 router.route('/period/:id')
-  .patch(controllers.period.patch);
+  .patch(controllers.period.patch)
+  .delete(controllers.period.remove);
 
 app.use('/api', router);
 app.listen(process.env.PORT, () => console.log(`app running on port:${process.env.PORT}`));

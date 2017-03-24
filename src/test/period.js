@@ -18,7 +18,6 @@ describe('period', () => {
   });
 
   describe('POST /period', () => {
-
     it('should get 401 code', (done) => {
       request(app)
         .post('/api/period')
@@ -41,6 +40,15 @@ describe('period', () => {
           done();
         });
     });
+  });
+
+  describe('PATCH /period/:id', () => {
+    it('should get 401 code', (done) => {
+      request(app)
+        .patch('/api/period')
+        .expect(401)
+        .end(() => done());
+    });
 
     it('should close the period', (done) => {
       Period.findOne({}, (err, doc) => {
@@ -57,7 +65,27 @@ describe('period', () => {
             expect(res.body.isOpen).toBe(false);
             done();
           });
-      })
+      });
     });
   });
+
+  describe('DELETE /period/:id', () => {
+    it('should get 401 code', (done) => {
+      request(app)
+        .patch('/api/period')
+        .expect(401)
+        .end(() => done());
+    });
+
+    it('should delete a period', (done) => {
+      Period.findOne({}, (err, doc) => {
+        doc.isOpen = false;
+        request(app)
+          .delete(`/api/period/${doc._id}`)
+          .set('x-access-token', 'xxxx')
+          .expect(200)
+          .end(done);
+      });
+    });
+  })
 });
