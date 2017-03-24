@@ -26,9 +26,8 @@ const router = express.Router();
 router.route('/period')
   .post(controllers.period.post);
 
-// router.route('/log/:id')
-//   .patch(controllers.log.patch)
-//   .delete(controllers.log.remove);
+router.route('/period/:id')
+  .patch(controllers.period.patch);
 
 app.use('/api', router);
 app.listen(process.env.PORT, () => console.log(`app running on port:${process.env.PORT}`));

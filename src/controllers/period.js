@@ -1,9 +1,9 @@
-const Log = require('../models/period');
+const Period = require('../models/period');
 
 function post(req, res) {
-  const log = Object.assign(new Log(), req.body);
-  log.createdBy = req.facebookId;
-  log.save((err, doc) => {
+  const period = Object.assign(new Period(), req.body);
+  period.createdBy = req.facebookId;
+  period.save((err, doc) => {
     if (err) {
       throw err;
     }
@@ -12,7 +12,7 @@ function post(req, res) {
 }
 
 function get(req, res) {
-  Log.find({ createdBy: req.facebookId }, (err, docs) => {
+  Period.find({ createdBy: req.facebookId }, (err, docs) => {
     if (err) {
       throw err;
     }
@@ -21,7 +21,7 @@ function get(req, res) {
 }
 
 function patch(req, res) {
-  Log.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, doc) => {
+  Period.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, doc) => {
     if (err) {
       throw err;
     }
@@ -30,7 +30,7 @@ function patch(req, res) {
 }
 
 function remove(req, res) {
-  Log.findByIdAndRemove(req.params.id, (err, doc) => {
+  Period.findByIdAndRemove(req.params.id, (err, doc) => {
     if (err) {
       throw err;
     }

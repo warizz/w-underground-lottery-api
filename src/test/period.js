@@ -1,17 +1,21 @@
 const expect = require('expect');
 const request = require('supertest');
 const app = require('../server');
-// const Period = require('../models/period');
+const Period = require('../models/period');
 // const User = require('../models/user');
 
 const periods = [
   {
-    createdBy: 'someone',
+    createdBy: 'awefawefaewfaf',
     endedAt: new Date(2017, 4, 1),
   },
 ];
 
 describe('period', () => {
+
+  before((done) => {
+    Period.remove(() => done());
+  });
 
   describe('POST /period', () => {
 
@@ -39,18 +43,21 @@ describe('period', () => {
     });
 
     it('should close the period', (done) => {
-      request(app)
-        .post('/api/period')
-        .set('x-access-token', 'xxxx')
-        .send(periods[0])
-        .expect(200)
-        .end((err, res) => {
-          if (err) {
-            done(err);
-          }
-          expect(res.body.isOpen).toBe(false);
-          done();
-        });
+      Period.findOne({}, (err, doc) => {
+        doc.isOpen = false;
+        request(app)
+          .patch(`/api/period/${doc._id}`)
+          .set('x-access-token', 'xxxx')
+          .send(doc)
+          .expect(200)
+          .end((err, res) => {
+            if (err) {
+              done(err);
+            }
+            expect(res.body.isOpen).toBe(false);
+            done();
+          });
+      })
     });
   });
 });
