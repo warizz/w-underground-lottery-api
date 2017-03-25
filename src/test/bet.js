@@ -7,9 +7,11 @@ describe('bet', () => {
   const period = {};
 
   before((done) => {
-    Period.findOne({}, (err, doc) => {
-      period.id = doc.id;
-      done();
+    Bet.remove().then(() => {
+      Period.findOne({}, (err, doc) => {
+        period.id = doc.id;
+        done();
+      });
     });
   });
 
@@ -141,7 +143,10 @@ describe('bet', () => {
             done(err);
           }
           expect(res.body._id).toBe(period.id);
-          expect(res.body.bets.length).toBeGreaterThan(0);
+          expect(res.body.bets[0].number).toBe('82');
+          expect(res.body.bets[0].price1).toBe(10);
+          expect(res.body.bets[0].price2).toBe(20);
+          expect(res.body.bets[0].price3).toBe(30);
           done();
         });
     });
