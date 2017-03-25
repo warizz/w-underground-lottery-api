@@ -4,7 +4,10 @@
   "rules": {
     "comma-dangle": [ "error", "only-multiline" ],
     "indent": [ "error", 2, { "MemberExpression": 1 } ],
+    "key-spacing": "error",
     "node/exports-style": [ "error", "module.exports" ],
+    "no-trailing-spaces": "error",
+    "object-curly-spacing": [ "error", "always" ],
     "semi": [ "error", "always" ]
   },
   "globals": {
