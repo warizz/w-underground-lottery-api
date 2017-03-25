@@ -1,5 +1,14 @@
 const { Bet, Period } = require('../models/index');
 
+function get(req, res, next) {
+  Period.findOne().sort({ createdAt: -1 }).populate('bets').exec((error, doc) => {
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(doc);
+  });
+}
+
 function post(req, res, next) {
   if (
     (!req.body.price1 && !req.body.price2 && !req.body.price3) ||
@@ -23,5 +32,6 @@ function post(req, res, next) {
 }
 
 module.exports = {
+  get,
   post,
 };

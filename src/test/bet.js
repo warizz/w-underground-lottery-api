@@ -129,4 +129,21 @@ describe('bet', () => {
         });
     });
   });
+
+  describe('GET /bet', () => {
+    it('should get latest period with bets', (done) => {
+      request(app)
+        .get('/api/bet')
+        .set('x-access-token', 'xxxx')
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+          }
+          expect(res.body._id).toBe(period.id);
+          expect(res.body.bets.length).toBeGreaterThan(0);
+          done();
+        });
+    });
+  });
 });
