@@ -9,6 +9,15 @@ function get(req, res, next) {
   });
 }
 
+function patch(req, res, next) {
+  Bet.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, doc) => {
+    if (error) {
+      return next(error);
+    }
+    res.status(200).send(doc);
+  });
+}
+
 function post(req, res, next) {
   if (
     (!req.body.price1 && !req.body.price2 && !req.body.price3) ||
@@ -31,7 +40,23 @@ function post(req, res, next) {
   });
 }
 
+function remove(req, res, next) {
+  Bet.findByIdAndRemove(req.params.id, { select: '_period' }, (error, doc) => {
+    if (error) {
+      return next(error);
+    }
+    Period.findByIdAndUpdate(doc._period, { $pull: { bets: req.params.id }}, (error2) => {
+      if (error2) {
+        return next(error);
+      }
+      res.status(200).send();
+    });
+  });
+}
+
 module.exports = {
   get,
+  patch,
   post,
+  remove,
 };

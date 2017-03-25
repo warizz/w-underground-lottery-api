@@ -33,6 +33,10 @@ router.route('/bet')
   .get(controllers.bet.get)
   .post(controllers.bet.post);
 
+router.route('/bet/:id')
+  .patch(controllers.bet.patch)
+  .delete(controllers.bet.remove);
+
 app.use('/api', router);
 app.use((err, req, res, next) => res.status(400).send(err));
 app.listen(process.env.PORT, () => console.log(`app running on port:${process.env.PORT}`));

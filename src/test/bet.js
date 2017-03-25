@@ -5,6 +5,7 @@ const { Bet, Period } = require('../models/index');
 
 describe('bet', () => {
   const period = {};
+  const bet = {};
 
   before((done) => {
     Bet.remove().then(() => {
@@ -147,7 +148,53 @@ describe('bet', () => {
           expect(res.body.bets[0].price1).toBe(10);
           expect(res.body.bets[0].price2).toBe(20);
           expect(res.body.bets[0].price3).toBe(30);
+          bet.id = res.body.bets[0]._id;
           done();
+        });
+    });
+  });
+
+  describe('PATCH /bet', () => {
+    it('should update bet new price', (done) => {
+      const updated = {
+        price1: 100,
+        price2: 200,
+        price3: 300,
+      };
+      request(app)
+        .patch(`/api/bet/${bet.id}`)
+        .set('x-access-token', 'xxxx')
+        .expect(200)
+        .send(updated)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+          }
+          expect(res.body.price1).toBe(100);
+          expect(res.body.price2).toBe(200);
+          expect(res.body.price3).toBe(300);
+          done();
+        });
+    });
+  });
+
+  describe('DELETE /bet', () =>{
+    it('should delete a bet', (done) => {
+      request(app)
+        .delete(`/api/bet/${bet.id}`)
+        .set('x-access-token', 'xxxx')
+        .expect(200)
+        .end((err) => {
+          if (err) {
+            done(err);
+          }
+          Bet.findById(bet.id, (err, doc) => {
+            expect(doc).toNotExist();
+            Period.findOne({ 'bets': bet.id }, (err2, doc2) => {
+              expect(doc2).toNotExist();
+              done();
+            });
+          });
         });
     });
   });
