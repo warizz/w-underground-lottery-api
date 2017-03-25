@@ -1,12 +1,21 @@
 const { Bet, Period } = require('../models/index');
 
 function get(req, res, next) {
-  Period.findOne().sort({ createdAt: -1 }).populate('bets').exec((error, doc) => {
-    if (error) {
-      return next(error);
-    }
-    res.status(200).json(doc);
-  });
+  Period
+    .findOne()
+    .sort('-createdAt')
+    .populate({
+      match: { createdBy: req.facebookId },
+      path: 'bets',
+      select: '-createdAt -createdBy -_period -__v'
+    })
+    .select('-createdAt -createdBy -__v ')
+    .exec((error, doc) => {
+      if (error) {
+        return next(error);
+      }
+      res.status(200).json(doc);
+    });
 }
 
 function patch(req, res, next) {
