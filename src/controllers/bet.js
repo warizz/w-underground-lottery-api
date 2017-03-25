@@ -54,7 +54,7 @@ function remove(req, res, next) {
     if (error) {
       return next(error);
     }
-    Period.findByIdAndUpdate(doc._period, { $pull: { bets: req.params.id }}, (error2) => {
+    Period.findByIdAndUpdate(doc._period, { $pull: { bets: req.params.id } }, (error2) => {
       if (error2) {
         return next(error);
       }
