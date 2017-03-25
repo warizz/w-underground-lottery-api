@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "export NODE_ENV=development || SET NODE_ENV=development&& nodemon ./src/server.js",
-    "test": "mocha ./src/test/*.js",
+    "test": "mocha ./src/test/index.js",
     "test-watch": "export NODE_ENV=test || SET NODE_ENV=test&& nodemon --exec npm run test"
   },
   "keywords": [],

@@ -27,10 +27,13 @@ router.route('/period')
   .post(controllers.period.post);
 
 router.route('/period/:id')
-  .patch(controllers.period.patch)
-  .delete(controllers.period.remove);
+  .patch(controllers.period.patch);
+
+router.route('/bet')
+  .post(controllers.bet.post);
 
 app.use('/api', router);
+app.use((err, req, res, next) => res.status(400).send(err));
 app.listen(process.env.PORT, () => console.log(`app running on port:${process.env.PORT}`));
 
 module.exports = app;

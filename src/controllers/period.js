@@ -29,18 +29,8 @@ function patch(req, res) {
   });
 }
 
-function remove(req, res) {
-  Period.findByIdAndRemove(req.params.id, (err, doc) => {
-    if (err) {
-      throw err;
-    }
-    res.status(200).json(doc);
-  });
-}
-
 module.exports = {
   get,
   patch,
   post,
-  remove,
 };

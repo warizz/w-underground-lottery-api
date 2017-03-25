@@ -1,8 +1,7 @@
 const expect = require('expect');
 const request = require('supertest');
 const app = require('../server');
-const Period = require('../models/period');
-// const User = require('../models/user');
+const { Period } = require('../models/index');
 
 const periods = [
   {
@@ -68,24 +67,4 @@ describe('period', () => {
       });
     });
   });
-
-  describe('DELETE /period/:id', () => {
-    it('should get 401 code', (done) => {
-      request(app)
-        .patch('/api/period')
-        .expect(401)
-        .end(() => done());
-    });
-
-    it('should delete a period', (done) => {
-      Period.findOne({}, (err, doc) => {
-        doc.isOpen = false;
-        request(app)
-          .delete(`/api/period/${doc._id}`)
-          .set('x-access-token', 'xxxx')
-          .expect(200)
-          .end(done);
-      });
-    });
-  })
 });
