@@ -30,4 +30,6 @@ const BetSchema = new mongoose.Schema({
   price3: Number,
 });
 
+BetSchema.set('toJSON', { virtuals: true });
+
 module.exports = mongoose.model('Bet', BetSchema);

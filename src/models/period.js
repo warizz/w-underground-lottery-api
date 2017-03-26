@@ -22,4 +22,6 @@ const PeriodSchema = new mongoose.Schema({
   },
 });
 
+PeriodSchema.set('toJSON', { virtuals: true });
+
 module.exports = mongoose.model('Period', PeriodSchema);
