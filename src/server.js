@@ -31,7 +31,6 @@ router.route('/period/:id')
   .patch(controllers.period.patch);
 
 router.route('/bet')
-  .get(controllers.bet.get)
   .post(controllers.bet.post);
 
 router.route('/bet/:id')

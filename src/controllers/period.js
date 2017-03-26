@@ -26,14 +26,14 @@ function get(req, res, next) {
     .populate({
       match: { createdBy: req.facebookId },
       path: 'bets',
-      select: '-createdAt -createdBy -period -__v'
+      select: 'createdBy id isPaid number price1 price2 price3',
     })
-    .select('-createdAt -createdBy -__v ')
+    .select('id endedAt isOpen bets')
     .exec((error, doc) => {
       if (error) {
         return next(error);
       }
-      res.status(200).json(doc);
+      res.status(200).json(doc.toJSON());
     });
 }
 

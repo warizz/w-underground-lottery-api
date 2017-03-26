@@ -133,10 +133,10 @@ describe('bet', () => {
     });
   });
 
-  describe('GET /bet', () => {
+  describe('GET /period', () => {
     it('should get latest period with bets', (done) => {
       request(app)
-        .get('/api/bet')
+        .get('/api/period')
         .set('x-access-token', 'xxxx')
         .expect(200)
         .end((err, res) => {

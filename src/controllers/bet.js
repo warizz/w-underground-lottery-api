@@ -1,23 +1,5 @@
 const { Bet, Period } = require('../models/index');
 
-function get(req, res, next) {
-  Period
-    .findOne()
-    .sort('-createdAt')
-    .populate({
-      match: { createdBy: req.facebookId },
-      path: 'bets',
-      select: 'id isPaid number price1 price2 price3',
-    })
-    .select('id endedAt isOpen bets')
-    .exec((error, doc) => {
-      if (error) {
-        return next(error);
-      }
-      res.status(200).json(doc.toJSON());
-    });
-}
-
 function patch(req, res, next) {
   Bet.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, doc) => {
     if (error) {
@@ -66,7 +48,6 @@ function remove(req, res, next) {
 }
 
 module.exports = {
-  get,
   patch,
   post,
   remove,
