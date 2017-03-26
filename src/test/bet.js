@@ -176,6 +176,64 @@ describe('bet', () => {
           done();
         });
     });
+
+    it('should set all user\'s bets to paid', (done) => {
+      const updated = {
+        isPaid: true,
+      };
+      request(app)
+        .patch(`/api/bets/${period.id}`)
+        .set('x-access-token', 'xxxx')
+        .expect(200)
+        .send(updated)
+        .end((err) => {
+          if (err) {
+            done(err);
+          }
+          Period
+            .findOne()
+            .sort('-createdAt')
+            .populate({
+              match: { createdBy: 'awefawefaewfaf' },
+              path: 'bets',
+              select: '-createdAt -createdBy -_period -__v'
+            })
+            .select('-createdAt -createdBy -__v ')
+            .exec((error, doc) => {
+              expect(doc.bets[0].isPaid).toBe(true);
+              done();
+            });
+        });
+    });
+
+    it('should set all user\'s bets to un-paid', (done) => {
+      const updated = {
+        isPaid: false,
+      };
+      request(app)
+        .patch(`/api/bets/${period.id}`)
+        .set('x-access-token', 'xxxx')
+        .expect(200)
+        .send(updated)
+        .end((err) => {
+          if (err) {
+            done(err);
+          }
+          Period
+            .findOne()
+            .sort('-createdAt')
+            .populate({
+              match: { createdBy: 'awefawefaewfaf' },
+              path: 'bets',
+              select: '-createdAt -createdBy -_period -__v'
+            })
+            .select('-createdAt -createdBy -__v ')
+            .exec((error, doc) => {
+              expect(doc.bets[0].isPaid).toBe(false);
+              done();
+            });
+        });
+    });
   });
 
   describe('DELETE /bet', () =>{

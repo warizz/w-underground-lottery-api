@@ -15,9 +15,14 @@ const BetSchema = new mongoose.Schema({
     required: true,
     match: /^\d{1,3}$/,
   },
+  isPaid: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   _period: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:'Period',
+    ref: 'Period',
     required: true,
   },
   price1: Number,

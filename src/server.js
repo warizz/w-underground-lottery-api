@@ -37,6 +37,9 @@ router.route('/bet/:id')
   .patch(controllers.bet.patch)
   .delete(controllers.bet.remove);
 
+router.route('/bets/:periodId')
+  .patch(controllers.bets.patch);
+
 app.use('/api', router);
 app.use((err, req, res, next) => res.status(400).send(err));
 app.listen(process.env.PORT, () => console.log(`app running on port:${process.env.PORT}`));
