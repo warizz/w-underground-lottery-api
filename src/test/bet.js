@@ -113,7 +113,7 @@ describe('bet', () => {
       bet.price1 = 10;
       bet.price2 = 20;
       bet.price3 = 30;
-      bet.period = period.id;
+      bet._period = period.id;
 
       request(app)
         .post('/api/bet')
