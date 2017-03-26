@@ -24,6 +24,7 @@ app.use(authenticator[process.env.NODE_ENV]);
 
 const router = express.Router();
 router.route('/period')
+  .get(controllers.period.get)
   .post(controllers.period.post);
 
 router.route('/period/:id')

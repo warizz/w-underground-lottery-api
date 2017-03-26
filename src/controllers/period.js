@@ -1,23 +1,40 @@
 const Period = require('../models/period');
 
-function post(req, res) {
+function post(req, res, next) {
+  Period.findOne({ isOpen: true }, (error, doc) => {
+    if (error) {
+      return next(error);
+    }
+    if (doc) {
+      return next(new Error('There is another openning period'));
+    }
+  });
   const period = Object.assign(new Period(), req.body);
   period.createdBy = req.facebookId;
-  period.save((err, doc) => {
-    if (err) {
-      throw err;
+  period.save((error, doc) => {
+    if (error) {
+      return next(error);
     }
     res.status(201).json(doc);
   });
 }
 
-function get(req, res) {
-  Period.find({ createdBy: req.facebookId }, (err, docs) => {
-    if (err) {
-      throw err;
-    }
-    res.status(200).json(docs);
-  });
+function get(req, res, next) {
+  Period
+    .findOne()
+    .sort('-createdAt')
+    .populate({
+      match: { createdBy: req.facebookId },
+      path: 'bets',
+      select: '-createdAt -createdBy -_period -__v'
+    })
+    .select('-createdAt -createdBy -__v ')
+    .exec((error, doc) => {
+      if (error) {
+        return next(error);
+      }
+      res.status(200).json(doc);
+    });
 }
 
 function patch(req, res) {

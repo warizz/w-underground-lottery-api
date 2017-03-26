@@ -25,10 +25,14 @@ describe('period', () => {
     });
 
     it('should create an opened period', (done) => {
+      const period = {
+        createdBy: 'awefawefaewfaf',
+        endedAt: new Date(2017, 4, 1),
+      };
       request(app)
         .post('/api/period')
         .set('x-access-token', 'xxxx')
-        .send(periods[0])
+        .send(period)
         .expect(201)
         .end((err, res) => {
           if (err) {
@@ -36,6 +40,38 @@ describe('period', () => {
           }
           expect(res.body.createdBy).toBe(periods[0].createdBy);
           expect(new Date(res.body.endedAt).getTime()).toBe(periods[0].endedAt.getTime());
+          done();
+        });
+    });
+
+    it('should not create another opened period', (done) => {
+      request(app)
+        .post('/api/period')
+        .set('x-access-token', 'xxxx')
+        .send(periods[0])
+        .expect(400)
+        .end(done);
+    });
+  });
+
+  describe('GET /period', () => {
+    it('should get 401 code', (done) => {
+      request(app)
+        .post('/api/period')
+        .expect(401)
+        .end(() => done());
+    });
+
+    it('should get latest period', (done) => {
+      request(app)
+        .get('/api/period')
+        .set('x-access-token', 'xxxx')
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+          }
+          expect(res.body).toExist();
           done();
         });
     });
