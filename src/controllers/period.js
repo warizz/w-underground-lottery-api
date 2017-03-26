@@ -8,14 +8,14 @@ function post(req, res, next) {
     if (doc) {
       return next(new Error('There is another openning period'));
     }
-  });
-  const period = Object.assign(new Period(), req.body);
-  period.createdBy = req.facebookId;
-  period.save((error, doc) => {
-    if (error) {
-      return next(error);
-    }
-    res.status(201).json(doc);
+    const period = Object.assign(new Period(), req.body);
+    period.createdBy = req.facebookId;
+    period.save((error, doc) => {
+      if (error) {
+        return next(error);
+      }
+      res.status(201).json(doc);
+    });
   });
 }
 
