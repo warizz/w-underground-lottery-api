@@ -25,7 +25,7 @@ describe('bet', () => {
     });
 
     it('should get 400 error with message Bet validation failed (number = xxx)', (done) => {
-      const bet = new Bet();
+      const bet = {};
       bet.number = 'xxx';
       bet.price1 = 10;
 
@@ -41,7 +41,7 @@ describe('bet', () => {
     });
 
     it('should get 400 error with message Bet validation failed (number = \'\')', (done) => {
-      const bet = new Bet();
+      const bet = {};
       bet.number = '';
       bet.price1 = 10;
 
@@ -57,7 +57,7 @@ describe('bet', () => {
     });
 
     it('should get 400 error with message Price validation failed (all prices undefined)', (done) => {
-      const bet = new Bet();
+      const bet = {};
       bet.number = '28';
 
       request(app)
@@ -72,7 +72,7 @@ describe('bet', () => {
     });
 
     it('should get 400 error with message Price validation failed (all prices 0)', (done) => {
-      const bet = new Bet();
+      const bet = {};
       bet.number = '28';
       bet.price1 = 0;
       bet.price2 = 0;
@@ -90,7 +90,7 @@ describe('bet', () => {
     });
 
     it('should get 400 error with message Price validation failed (no period included)', (done) => {
-      const bet = new Bet();
+      const bet = {};
       bet.number = '82';
       bet.price1 = 10;
       bet.price2 = 20;
@@ -108,12 +108,12 @@ describe('bet', () => {
     });
 
     it('should create a new bet', (done) => {
-      const bet = new Bet();
+      const bet = {};
       bet.number = '82';
       bet.price1 = 10;
       bet.price2 = 20;
       bet.price3 = 30;
-      bet._period = period.id;
+      bet.period = period.id;
 
       request(app)
         .post('/api/bet')
