@@ -26,7 +26,7 @@ function get(req, res, next) {
     .populate({
       match: { createdBy: req.facebookId },
       path: 'bets',
-      select: '-createdAt -createdBy -_period -__v'
+      select: '-createdAt -createdBy -period -__v'
     })
     .select('-createdAt -createdBy -__v ')
     .exec((error, doc) => {

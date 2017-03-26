@@ -113,7 +113,7 @@ describe('bet', () => {
       bet.price1 = 10;
       bet.price2 = 20;
       bet.price3 = 30;
-      bet._period = period.id;
+      bet.period = period.id;
 
       request(app)
         .post('/api/bet')
@@ -126,7 +126,7 @@ describe('bet', () => {
           expect(res.body.price2).toBe(20);
           expect(res.body.price3).toBe(30);
           Period.findOne({ 'bets': res.body._id }, (err, doc) => {
-            expect(doc.id).toBe(res.body._period);
+            expect(doc.id).toBe(res.body.period);
             done();
           });
         });
@@ -198,7 +198,7 @@ describe('bet', () => {
             .populate({
               match: { createdBy: 'awefawefaewfaf' },
               path: 'bets',
-              select: '-createdAt -createdBy -_period -__v'
+              select: '-createdAt -createdBy -period -__v'
             })
             .select('-createdAt -createdBy -__v ')
             .exec((error, doc) => {
@@ -227,7 +227,7 @@ describe('bet', () => {
             .populate({
               match: { createdBy: 'awefawefaewfaf' },
               path: 'bets',
-              select: '-createdAt -createdBy -_period -__v'
+              select: '-createdAt -createdBy -period -__v'
             })
             .select('-createdAt -createdBy -__v ')
             .exec((error, doc) => {

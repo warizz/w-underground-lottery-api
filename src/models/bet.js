@@ -20,7 +20,7 @@ const BetSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
-  _period: {
+  period: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Period',
     required: true,

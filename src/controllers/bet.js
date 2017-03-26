@@ -42,7 +42,7 @@ function post(req, res, next) {
     if (error) {
       return next(error);
     }
-    Period.findByIdAndUpdate(bet._period, { $push: { bets: bet._id } }, { new: true }, (error2) => {
+    Period.findByIdAndUpdate(bet.period, { $push: { bets: bet._id } }, { new: true }, (error2) => {
       if (error2) {
         return next(error2);
       }
@@ -52,11 +52,11 @@ function post(req, res, next) {
 }
 
 function remove(req, res, next) {
-  Bet.findByIdAndRemove(req.params.id, { select: '_period' }, (error, doc) => {
+  Bet.findByIdAndRemove(req.params.id, { select: 'period' }, (error, doc) => {
     if (error) {
       return next(error);
     }
-    Period.findByIdAndUpdate(doc._period, { $pull: { bets: req.params.id } }, (error2) => {
+    Period.findByIdAndUpdate(doc.period, { $pull: { bets: req.params.id } }, (error2) => {
       if (error2) {
         return next(error);
       }
