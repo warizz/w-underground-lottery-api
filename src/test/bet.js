@@ -176,8 +176,10 @@ describe('bet', () => {
           done();
         });
     });
+  });
 
-    it('should set all user\'s bets to paid', (done) => {
+  describe('PATCH /bets', () => {
+    it('should set user\'s bets to paid', (done) => {
       const updated = {
         isPaid: true,
       };
@@ -206,7 +208,7 @@ describe('bet', () => {
         });
     });
 
-    it('should set all user\'s bets to un-paid', (done) => {
+    it('should set user\'s bets to un-paid', (done) => {
       const updated = {
         isPaid: false,
       };
