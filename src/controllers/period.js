@@ -1,5 +1,14 @@
 const Period = require('../models/period');
 
+function patch(req, res, next) {
+  Period.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, doc) => {
+    if (error) {
+      return next(error);
+    }
+    res.status(200).json(doc);
+  });
+}
+
 function post(req, res, next) {
   Period.findOne({ isOpen: true }, (error, doc) => {
     if (error) {
@@ -28,22 +37,13 @@ function get(req, res, next) {
       path: 'bets',
       select: 'createdBy id isPaid number price1 price2 price3',
     })
-    .select('id endedAt isOpen bets result')
+    .select('id createdAt endedAt isOpen bets result')
     .exec((error, doc) => {
       if (error) {
         return next(error);
       }
-      res.status(200).json(doc.toJSON());
+      res.status(200).json(doc ? doc.toJSON() : doc);
     });
-}
-
-function patch(req, res) {
-  Period.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, doc) => {
-    if (err) {
-      throw err;
-    }
-    res.status(200).json(doc);
-  });
 }
 
 module.exports = {

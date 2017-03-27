@@ -38,7 +38,8 @@ router.route('/bet/:id')
   .delete(controllers.bet.remove);
 
 router.route('/bets/:periodId')
-  .patch(controllers.bets.patch);
+  .patch(controllers.bets.patch)
+  .post(controllers.bets.post);
 
 router.route('/history')
   .get(controllers.history.get);
