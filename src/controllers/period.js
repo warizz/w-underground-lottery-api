@@ -28,7 +28,7 @@ function get(req, res, next) {
       path: 'bets',
       select: 'createdBy id isPaid number price1 price2 price3',
     })
-    .select('id endedAt isOpen bets')
+    .select('id endedAt isOpen bets result')
     .exec((error, doc) => {
       if (error) {
         return next(error);
