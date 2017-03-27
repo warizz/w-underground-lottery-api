@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 
 const PeriodSchema = new mongoose.Schema({
   bets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Bet' }],
-  createdAt: {
-    type: Date,
-    default: new Date(),
-    required: true,
-  },
   createdBy: {
     type: String,
     required: true,
@@ -26,6 +21,8 @@ const PeriodSchema = new mongoose.Schema({
     firstThree: String,
     secondThree: String,
   }
+}, {
+  timestamps: true
 });
 
 PeriodSchema.set('toJSON', { virtuals: true });

@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const BetSchema = new mongoose.Schema({
-  createdAt: {
-    type: Date,
-    default: new Date(),
-    required: true,
-  },
   createdBy: {
     type: String,
     required: true,
@@ -28,6 +23,8 @@ const BetSchema = new mongoose.Schema({
   price1: Number,
   price2: Number,
   price3: Number,
+}, {
+  timestamps: true
 });
 
 BetSchema.set('toJSON', { virtuals: true });
