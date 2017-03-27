@@ -16,3 +16,15 @@ config.json at project's root/
   }
 }
 ```
+
+## api
+
+### DELETE /bet/:id
+
+remove bet from /bet and /period
+
+#### parameters
+- id (String)
+
+#### returns
+- null
