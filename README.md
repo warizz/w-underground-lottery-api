@@ -19,12 +19,30 @@ config.json at project's root/
 
 ## api
 
-### DELETE /bet/:id
-
+### PATCH /bet/:id
 remove bet from /bet and /period
 
-#### parameters
+#### url parameters
 - id (String)
+
+#### body parameters
+- bet (Object)
+
+#### returns
+- bet (Object): updated doc
+
+---
+
+### DELETE /bet/:id
+remove bet from /bet and /period
+
+#### url parameters
+- id (String)
+
+#### body parameters
+- null
 
 #### returns
 - null
+
+---
