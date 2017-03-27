@@ -154,6 +154,39 @@ describe('bet', () => {
     });
   });
 
+  describe('POST /bets', () => {
+    it('should insert many bets', (done) => {
+      const updates = [
+        { number: '845', price1: 100, price2: 100, price3: 100 },
+        { number: '695', price1: 100, price2: 100, price3: 100 },
+        { number: '20', price1: 100, price2: 100, price3: 100 },
+      ];
+      request(app)
+        .post(`/api/bets/${period.id}`)
+        .set('x-access-token', 'xxxx')
+        .expect(201)
+        .send(updates)
+        .end((err) => {
+          if (err) {
+            done(err);
+          }
+          Period
+            .findOne()
+            .sort('-createdAt')
+            .populate({
+              match: { createdBy: 'awefawefaewfaf' },
+              path: 'bets',
+              select: 'id createdBy number price1 price2 price3',
+            })
+            .select('id createdAt endedAt bets')
+            .exec((error, doc) => {
+              expect(doc.bets.length).toBe(4);
+              done();
+            });
+        });
+    });
+  });
+
   describe('PATCH /bet', () => {
     it('should update bet new price', (done) => {
       const updated = {
