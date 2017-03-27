@@ -238,6 +238,22 @@ describe('bet', () => {
     });
   });
 
+  describe('GET /history', () => {
+    it('should get history list', (done) => {
+      request(app)
+        .get('/api/history')
+        .set('x-access-token', 'xxxx')
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+          }
+          expect(res.body.length).toBeGreaterThan(0);
+          done();
+        });
+    });
+  });
+
   describe('DELETE /bet', () =>{
     it('should delete a bet', (done) => {
       request(app)
