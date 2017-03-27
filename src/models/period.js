@@ -20,6 +20,12 @@ const PeriodSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  result: {
+    six: String,
+    two: String,
+    firstThree: String,
+    secondThree: String,
+  }
 });
 
 PeriodSchema.set('toJSON', { virtuals: true });

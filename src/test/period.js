@@ -102,5 +102,31 @@ describe('period', () => {
           });
       });
     });
+
+    it('should save result', (done) => {
+      Period.findOne({}, (err, doc) => {
+        doc.result = {
+          six: '152456',
+          two: '20',
+          firstThree: '305',
+          secondThree: '555',
+        };
+        request(app)
+          .patch(`/api/period/${doc._id}`)
+          .set('x-access-token', 'xxxx')
+          .send(doc)
+          .expect(200)
+          .end((err, res) => {
+            if (err) {
+              done(err);
+            }
+            expect(res.body.result.six).toBe('152456');
+            expect(res.body.result.two).toBe('20');
+            expect(res.body.result.firstThree).toBe('305');
+            expect(res.body.result.secondThree).toBe('555');
+            done();
+          });
+      });
+    });
   });
 });
