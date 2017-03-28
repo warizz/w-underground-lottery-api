@@ -10,7 +10,7 @@
     "object-curly-spacing": [ "error", "always" ],
     "semi": [ "error", "always" ],
     "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
-    "space-infix-ops": "error"
+    "space-infix-ops": ["error", { "int32Hint": false }]
   },
   "globals": {
     "describe": true,
