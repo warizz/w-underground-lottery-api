@@ -84,6 +84,18 @@ function logOut(access_token) {
   });
 }
 
+function post(req, res, next) {
+  const access_token = req.body.access_token;
+  const authenticator = process.env.NODE_ENV === 'test' ? fakeAuthenticator : facebookAuthenticator;
+  const profileGetter = process.env.NODE_ENV === 'test' ? fakeProfileGetter : facebookProfileGetter;
+  console.log('access_token', access_token)
+  getToken(authenticator, access_token)
+    .then(profileGetter)
+    .then(saveUserData)
+    .then(user => res.status(200).json(user))
+    .catch(error => next(error));
+}
+
 function saveUserData(user_data) {
   return new Promise((resolve, reject) => {
     User
@@ -140,6 +152,7 @@ module.exports = {
   getToken,
   logIn,
   logOut,
+  post,
   saveUserData,
   validateToken,
 };
