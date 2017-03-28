@@ -60,6 +60,20 @@ function fakeProfileGetter(access_token) {
   });
 }
 
+function logOut(access_token) {
+  return new Promise((resolve, reject) => {
+    User
+      .where({ access_token })
+      .findOne()
+      .remove((error) => {
+        if (error) {
+          reject(error);
+        }
+        resolve();
+      });
+  });
+}
+
 function saveUserData(user_data) {
   const user = new User();
   user.name = user_data.name;
@@ -96,6 +110,7 @@ module.exports = {
   fakeAuthenticator,
   fakeProfileGetter,
   getToken,
+  logOut,
   saveUserData,
   validateToken,
 };

@@ -51,11 +51,23 @@ describe('User', () => {
         .catch(done);
     });
 
-    it('should remove user token', (done) => {
-      User.update({ access_token }, { $unset: { token: 1 } }, { new: true }, (error, doc) => {
-        expect(doc.access_token).toNotExist();
-        done();
-      });
+    it('should log user out', (done) => {
+      controller
+        .user
+        .logOut(access_token)
+        .then(() => {
+          User
+            .where({ access_token })
+            .findOne()
+            .exec((error, doc) => {
+              if (error) {
+                done(error);
+              }
+              expect(doc).toNotExist();
+              done();
+            });
+        })
+        .catch(done);
     });
   });
 });
