@@ -9,7 +9,8 @@
     "no-trailing-spaces": "error",
     "object-curly-spacing": [ "error", "always" ],
     "semi": [ "error", "always" ],
-    "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }]
+    "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
+    "space-infix-ops": "error"
   },
   "globals": {
     "describe": true,
