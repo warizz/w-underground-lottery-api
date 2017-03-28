@@ -60,6 +60,16 @@ function fakeProfileGetter(access_token) {
   });
 }
 
+function logIn(access_token) {
+  return new Promise((resolve, reject) => {
+    getToken(facebookAuthenticator, access_token)
+      .then(facebookProfileGetter)
+      .then(saveUserData)
+      .then(user => resolve(user))
+      .catch(error => reject(error));
+  });
+}
+
 function logOut(access_token) {
   return new Promise((resolve, reject) => {
     User
@@ -75,17 +85,35 @@ function logOut(access_token) {
 }
 
 function saveUserData(user_data) {
-  const user = new User();
-  user.name = user_data.name;
-  user.picture = user_data.picture;
-  user.access_token =user_data.access_token;
   return new Promise((resolve, reject) => {
-    user.save((error, doc) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(doc);
-    });
+    User
+      .where({ name: user_data.name })
+      .findOne()
+      .exec((error, doc) => {
+        if (error) {
+          reject(error);
+        }
+        if (doc) {
+          User
+            .findByIdAndUpdate(doc._id, { access_token: user_data.access_token }, { new: true }, (updated_error, updated_doc) => {
+              if (updated_error) {
+                reject(updated_error);
+              }
+              resolve(updated_doc);
+            });
+        } else {
+          const user = new User();
+          user.name = user_data.name;
+          user.picture = user_data.picture;
+          user.access_token = user_data.access_token;
+          user.save((save_error, new_doc) => {
+            if (save_error) {
+              reject(save_error);
+            }
+            resolve(new_doc);
+          });
+        }
+      });
   });
 }
 
@@ -110,6 +138,7 @@ module.exports = {
   fakeAuthenticator,
   fakeProfileGetter,
   getToken,
+  logIn,
   logOut,
   saveUserData,
   validateToken,
