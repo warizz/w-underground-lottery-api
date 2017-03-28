@@ -10,7 +10,7 @@ function facebookAuthenticator(short_lived_token) {
     axios
       .get(endpoint)
       .then((res) => {
-        resolve(res.access_token);
+        resolve(res.data.access_token);
       })
       .catch((error) => {
         reject(error.response.data);
@@ -19,7 +19,10 @@ function facebookAuthenticator(short_lived_token) {
 }
 
 function fakeAuthenticator(access_token) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    if (!access_token) {
+      reject('invalid token');
+    }
     resolve(access_token);
   });
 }
@@ -53,20 +56,14 @@ function fakeProfileGetter(access_token) {
   return new Promise((resolve) => {
     resolve({
       name: 'tester testerer',
-      picture: 'https://scontent.fbkk1-4.fna.fbcdn.net/v/t1.0-9/13151495_10153419716527676_5289925877114749609_n.jpg',
+      picture: {
+        data: {
+          url: 'https://scontent.fbkk1-4.fna.fbcdn.net/v/t1.0-9/13151495_10153419716527676_5289925877114749609_n.jpg',
+        },
+      },
       id: '15879532356898',
       access_token,
     });
-  });
-}
-
-function logIn(access_token) {
-  return new Promise((resolve, reject) => {
-    getToken(facebookAuthenticator, access_token)
-      .then(facebookProfileGetter)
-      .then(saveUserData)
-      .then(user => resolve(user))
-      .catch(error => reject(error));
   });
 }
 
@@ -84,6 +81,14 @@ function logOut(access_token) {
   });
 }
 
+function normalize(user) {
+  return {
+    name: user.name,
+    picture: user.picture,
+    access_token: user.access_token,
+  };
+}
+
 function post(req, res, next) {
   const access_token = req.body.access_token;
   const authenticator = process.env.NODE_ENV === 'test' ? fakeAuthenticator : facebookAuthenticator;
@@ -91,8 +96,8 @@ function post(req, res, next) {
   getToken(authenticator, access_token)
     .then(profileGetter)
     .then(saveUserData)
-    .then(user => res.status(200).json(user))
-    .catch(error => next(error));
+    .then(user => res.status(200).json(normalize(user)))
+    .catch(error => res.status(401).send(error));
 }
 
 function saveUserData(user_data) {
@@ -115,7 +120,7 @@ function saveUserData(user_data) {
         } else {
           const user = new User();
           user.name = user_data.name;
-          user.picture = user_data.picture;
+          user.picture = user_data.picture.data.url;
           user.access_token = user_data.access_token;
           user.save((save_error, new_doc) => {
             if (save_error) {
@@ -149,7 +154,6 @@ module.exports = {
   fakeAuthenticator,
   fakeProfileGetter,
   getToken,
-  logIn,
   logOut,
   post,
   saveUserData,

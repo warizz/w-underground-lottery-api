@@ -92,6 +92,18 @@ describe('User', () => {
   });
 
   describe('endpoint', () => {
+    it('should get 401', (done) => {
+      request(app)
+        .post('/api/log_in')
+        .expect(401)
+        .then((res) => {
+          const user = res.body;
+          expect(user).toExist();
+          done();
+        })
+        .catch(done);
+    });
+
     it('should log in successfully', (done) => {
       request(app)
         .post('/api/log_in')

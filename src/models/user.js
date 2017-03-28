@@ -9,4 +9,6 @@ const UserSchema = new mongoose.Schema({
   access_token: String,
 }, { timestamps: true });
 
+UserSchema.set('toJSON', { virtuals: true });
+
 module.exports = mongoose.model('User', UserSchema);
