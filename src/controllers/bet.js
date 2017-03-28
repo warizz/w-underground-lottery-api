@@ -17,7 +17,7 @@ function post(req, res, next) {
     return next({ message: 'Bet validation failed' });
   }
   const bet = Object.assign(new Bet(), req.body);
-  bet.createdBy = req.facebookId;
+  bet.createdBy = req.user_id;
   delete bet.id;
   delete bet.period;
   bet.save((error, doc) => {

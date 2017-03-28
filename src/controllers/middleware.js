@@ -4,6 +4,7 @@ function facebookAuthenticator(req, res, next) {
   let access_token = req.headers['x-access-token'];
   validateToken(access_token)
     .then((user_id) => {
+      console.log('user_id', user_id)
       req.user_id = user_id;
       next();
     })
@@ -13,7 +14,7 @@ function facebookAuthenticator(req, res, next) {
 function fakeAuthenticator(req, res, next) {
   let token = req.headers['x-access-token'];
   if (token) {
-    req.facebookId = 'awefawefaewfaf';
+    req.user_id = 'awefawefaewfaf';
     next();
     return;
   }

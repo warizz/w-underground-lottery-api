@@ -28,6 +28,7 @@ describe('period', () => {
         .end((err, res) => {
           if (err) {
             done(err);
+            return;
           }
           expect(res.body).toExist();
           period.id = res.body._id;

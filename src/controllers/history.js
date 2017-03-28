@@ -6,7 +6,7 @@ function get(req, res, next) {
     .sort('-createdAt')
     .limit(10)
     .populate({
-      match: { createdBy: req.facebookId },
+      match: { createdBy: req.user_id },
       path: 'bets',
       select: 'id createdBy number price1 price2 price3',
     })

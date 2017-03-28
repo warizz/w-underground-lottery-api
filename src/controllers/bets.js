@@ -13,7 +13,7 @@ function post(req, res, next) {
   const inputBets = req.body.map((inputBet) => {
     delete inputBet._id;
     delete inputBet.id;
-    inputBet.createdBy = req.facebookId;
+    inputBet.createdBy = req.user_id;
     inputBet.period = req.params.periodId;
     return inputBet;
   });

@@ -18,10 +18,10 @@ function post(req, res, next) {
       return next(new Error('There is another openning period'));
     }
     const period = Object.assign(new Period(), req.body);
-    period.createdBy = req.facebookId;
+    period.createdBy = req.user_id;
     period.save((error, doc) => {
       if (error) {
-        return next(error);
+        return next(error.message);
       }
       res.status(201).json(doc);
     });
@@ -33,7 +33,7 @@ function get(req, res, next) {
     .findOne()
     .sort('-createdAt')
     .populate({
-      match: { createdBy: req.facebookId },
+      match: { createdBy: req.user_id },
       path: 'bets',
       select: 'createdBy id isPaid number price1 price2 price3',
     })
