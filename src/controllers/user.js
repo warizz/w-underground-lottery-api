@@ -89,7 +89,7 @@ function normalize(user) {
   };
 }
 
-function post(req, res, next) {
+function post(req, res) {
   const access_token = req.body.access_token;
   const authenticator = process.env.NODE_ENV === 'test' ? fakeAuthenticator : facebookAuthenticator;
   const profileGetter = process.env.NODE_ENV === 'test' ? fakeProfileGetter : facebookProfileGetter;
@@ -138,12 +138,15 @@ function validateToken(access_token) {
     User
       .where({ access_token })
       .findOne()
-      .select('name picture id access_token')
+      .select('id')
       .exec((error, doc) => {
         if (error) {
           reject(error);
         }
-        resolve(doc);
+        if (!doc) {
+          reject('token not found');
+        }
+        resolve(doc.id);
       });
   });
 }

@@ -63,8 +63,8 @@ describe('User', () => {
         controller
           .user
           .validateToken(access_token_2)
-          .then((user) => {
-            expect(user.access_token).toBe(access_token_2);
+          .then((user_id) => {
+            expect(user_id).toExist();
             done();
           })
           .catch(done);
