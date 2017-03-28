@@ -20,28 +20,36 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(authenticator[process.env.NODE_ENV]);
 
 const router = express.Router();
+router.route('/log_in')
+  .post(controllers.user.post);
+
 router.route('/period')
+  .all(authenticator[process.env.NODE_ENV])
   .get(controllers.period.get)
   .post(controllers.period.post);
 
 router.route('/period/:id')
+  .all(authenticator[process.env.NODE_ENV])
   .patch(controllers.period.patch);
 
 router.route('/bet')
+  .all(authenticator[process.env.NODE_ENV])
   .post(controllers.bet.post);
 
 router.route('/bet/:id')
+  .all(authenticator[process.env.NODE_ENV])
   .patch(controllers.bet.patch)
   .delete(controllers.bet.remove);
 
 router.route('/bets/:periodId')
+  .all(authenticator[process.env.NODE_ENV])
   .patch(controllers.bets.patch)
   .post(controllers.bets.post);
 
 router.route('/history')
+  .all(authenticator[process.env.NODE_ENV])
   .get(controllers.history.get);
 
 app.use('/api', router);
