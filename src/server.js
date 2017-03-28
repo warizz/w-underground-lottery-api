@@ -52,6 +52,10 @@ router.route('/history')
   .all(authenticator[process.env.NODE_ENV])
   .get(controllers.history.get);
 
+router.route('/summary/:period_id')
+  .all(authenticator[process.env.NODE_ENV])
+  .get(controllers.summary.get);
+
 app.use('/api', router);
 app.use((err, req, res, next) => res.status(400).send(err));
 app.listen(process.env.PORT, () => console.log(`app running on port:${process.env.PORT}`));

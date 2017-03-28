@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const BetSchema = new mongoose.Schema({
   createdBy: {
     type: String,
+    ref: 'User',
     required: true,
   },
   number: {

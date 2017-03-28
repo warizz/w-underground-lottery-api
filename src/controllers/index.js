@@ -3,6 +3,7 @@ const bets = require('./bets');
 const history = require('./history');
 const period = require('./period');
 const middleware = require('./middleware');
+const summary = require('./summary');
 const user = require('./user');
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
   history,
   period,
   middleware,
+  summary,
   user,
 };
