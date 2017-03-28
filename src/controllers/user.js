@@ -88,7 +88,6 @@ function post(req, res, next) {
   const access_token = req.body.access_token;
   const authenticator = process.env.NODE_ENV === 'test' ? fakeAuthenticator : facebookAuthenticator;
   const profileGetter = process.env.NODE_ENV === 'test' ? fakeProfileGetter : facebookProfileGetter;
-  console.log('access_token', access_token)
   getToken(authenticator, access_token)
     .then(profileGetter)
     .then(saveUserData)
