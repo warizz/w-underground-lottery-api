@@ -34,6 +34,7 @@ function getToken(authenticator, short_lived_token) {
 function facebookProfileGetter(access_token) {
   const params = `/me?fields=name,picture&access_token=${access_token}`;
   const endpoint = `${FACEBOOK_GRAPH_API_BASE_URL}${params}`;
+  console.log(endpoint);
   return new Promise((resolve, reject) => {
     axios
       .get(endpoint)
