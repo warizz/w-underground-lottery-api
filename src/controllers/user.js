@@ -38,6 +38,7 @@ function facebookProfileGetter(access_token) {
     axios
       .get(endpoint)
       .then((res) => {
+        console.log('res', res);
         const user = {
           name: res.data.name,
           picture: res.data.picture,
@@ -46,9 +47,7 @@ function facebookProfileGetter(access_token) {
         };
         resolve(user);
       })
-      .catch((error) => {
-        reject(error);
-      });
+      .catch(error => reject(error));
   });
 }
 
