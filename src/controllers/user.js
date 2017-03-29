@@ -6,7 +6,6 @@ const FACEBOOK_GRAPH_API_BASE_URL = 'https://graph.facebook.com';
 function facebookAuthenticator(short_lived_token) {
   const params = `/oauth/access_token?grant_type=fb_exchange_token&client_id=${process.env.FACEBOOK_APP_ID}&client_secret=${process.env.FACEBOOK_APP_SECRET}&fb_exchange_token=${short_lived_token}`;
   const endpoint = `${FACEBOOK_GRAPH_API_BASE_URL}${params}`;
-  console.log('endpoint', endpoint)
   return new Promise((resolve, reject) => {
     axios
       .get(endpoint)
@@ -23,6 +22,7 @@ function fakeAuthenticator(access_token) {
   return new Promise((resolve, reject) => {
     if (!access_token) {
       reject('invalid token');
+      return;
     }
     resolve(access_token);
   });
@@ -35,12 +35,10 @@ function getToken(authenticator, short_lived_token) {
 function facebookProfileGetter(access_token) {
   const params = `/me?fields=name,picture&access_token=${access_token}`;
   const endpoint = `${FACEBOOK_GRAPH_API_BASE_URL}${params}`;
-  console.log(endpoint);
   return new Promise((resolve, reject) => {
     axios
       .get(endpoint)
       .then((res) => {
-        console.log('res', res);
         const user = {
           name: res.data.name,
           picture: res.data.picture,
@@ -76,6 +74,7 @@ function logOut(access_token) {
       .remove((error) => {
         if (error) {
           reject(error);
+          return;
         }
         resolve();
       });
@@ -109,12 +108,14 @@ function saveUserData(user_data) {
       .exec((error, doc) => {
         if (error) {
           reject(error);
+          return;
         }
         if (doc) {
           User
             .findByIdAndUpdate(doc._id, { access_token: user_data.access_token }, { new: true }, (updated_error, updated_doc) => {
               if (updated_error) {
                 reject(updated_error);
+                return;
               }
               resolve(updated_doc);
             });
@@ -126,6 +127,7 @@ function saveUserData(user_data) {
           user.save((save_error, new_doc) => {
             if (save_error) {
               reject(save_error);
+              return;
             }
             resolve(new_doc);
           });
@@ -143,9 +145,11 @@ function validateToken(access_token) {
       .exec((error, doc) => {
         if (error) {
           reject(error);
+          return;
         }
         if (!doc) {
-          reject('token not found');
+          reject('invalid token');
+          return;
         }
         resolve(doc.id);
       });
