@@ -19,7 +19,7 @@ const authenticator = {
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 
 const router = express.Router();
 router.route('/log_in')
