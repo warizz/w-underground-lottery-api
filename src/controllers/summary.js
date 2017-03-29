@@ -12,7 +12,7 @@ function get(req, res, next) {
         model: 'User',
         select: 'id name',
       },
-      select: 'id createdBy number price1 price2 price3',
+      select: 'id createdBy isPaid number price1 price2 price3',
     })
     .select('id createdAt endedAt bets')
     .exec((error, docs) => {
