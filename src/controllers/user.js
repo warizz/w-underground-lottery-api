@@ -6,6 +6,7 @@ const FACEBOOK_GRAPH_API_BASE_URL = 'https://graph.facebook.com';
 function facebookAuthenticator(short_lived_token) {
   const params = `/oauth/access_token?grant_type=fb_exchange_token&client_id=${process.env.FACEBOOK_APP_ID}&client_secret=${process.env.FACEBOOK_APP_SECRET}&fb_exchange_token=${short_lived_token}`;
   const endpoint = `${FACEBOOK_GRAPH_API_BASE_URL}${params}`;
+  console.log('endpoint', endpoint)
   return new Promise((resolve, reject) => {
     axios
       .get(endpoint)
