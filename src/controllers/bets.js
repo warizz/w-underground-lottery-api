@@ -1,7 +1,7 @@
 const { Bet, Period } = require('../models/index');
 
 function patch(req, res, next) {
-  Bet.update({ period: req.params.periodId }, req.body, { multi: true }, (error) => {
+  Bet.update({ period: req.params.periodId, createdBy: req.user_id }, req.body, { multi: true }, (error) => {
     if (error) {
       return next(error);
     }
