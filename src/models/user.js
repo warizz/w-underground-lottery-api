@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
+  oauth_id: {
+    require: true,
+    type: String,
+  },
   name: {
     require: true,
     type: String,

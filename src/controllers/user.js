@@ -38,7 +38,7 @@ function facebookProfileGetter(access_token) {
         const user = {
           name: res.data.name,
           picture: res.data.picture,
-          id: res.data.id,
+          oauth_id: res.data.id,
           access_token,
         };
         resolve(user);
@@ -56,7 +56,7 @@ function fakeProfileGetter(access_token) {
           url: 'https://scontent.fbkk1-4.fna.fbcdn.net/v/t1.0-9/13151495_10153419716527676_5289925877114749609_n.jpg',
         },
       },
-      id: '15879532356898',
+      oauth_id: 'awefawefaewfaf',
       access_token,
     });
   });
@@ -99,7 +99,7 @@ function post(req, res) {
 function saveUserData(user_data) {
   return new Promise((resolve, reject) => {
     User
-      .where({ name: user_data.name })
+      .where({ oauth_id: user_data.oauth_id })
       .findOne()
       .exec((error, doc) => {
         if (error) {
