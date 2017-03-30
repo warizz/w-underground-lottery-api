@@ -119,6 +119,7 @@ function saveUserData(user_data) {
         user.name = user_data.name;
         user.picture = user_data.picture.data.url;
         user.access_token = user_data.access_token;
+        user.oauth_id = user_data.oauth_id;
         user.save((save_error, new_doc) => {
           if (save_error) {
             return reject(save_error);
