@@ -9,12 +9,8 @@ function facebookAuthenticator(short_lived_token) {
   return new Promise((resolve, reject) => {
     axios
       .get(endpoint)
-      .then((res) => {
-        resolve(res.data.access_token);
-      })
-      .catch((error) => {
-        reject(error.response.data);
-      });
+      .then(res => resolve(res.data.access_token))
+      .catch(error => reject(error.response.data));
   });
 }
 
@@ -107,31 +103,28 @@ function saveUserData(user_data) {
       .findOne()
       .exec((error, doc) => {
         if (error) {
-          reject(error);
-          return;
+          return reject(error);
         }
         if (doc) {
           User
             .findByIdAndUpdate(doc._id, { access_token: user_data.access_token }, { new: true }, (updated_error, updated_doc) => {
               if (updated_error) {
-                reject(updated_error);
-                return;
+                return reject(updated_error);
               }
-              resolve(updated_doc);
+              return resolve(updated_doc);
             });
-        } else {
-          const user = new User();
-          user.name = user_data.name;
-          user.picture = user_data.picture.data.url;
-          user.access_token = user_data.access_token;
-          user.save((save_error, new_doc) => {
-            if (save_error) {
-              reject(save_error);
-              return;
-            }
-            resolve(new_doc);
-          });
+          return;
         }
+        const user = new User();
+        user.name = user_data.name;
+        user.picture = user_data.picture.data.url;
+        user.access_token = user_data.access_token;
+        user.save((save_error, new_doc) => {
+          if (save_error) {
+            return reject(save_error);
+          }
+          return resolve(new_doc);
+        });
       });
   });
 }
