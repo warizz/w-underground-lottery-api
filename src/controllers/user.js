@@ -137,14 +137,12 @@ function validateToken(access_token) {
       .select('id')
       .exec((error, doc) => {
         if (error) {
-          reject(error);
-          return;
+          return reject(error);
         }
         if (!doc) {
-          reject('invalid token');
-          return;
+          return reject('invalid token');
         }
-        resolve(doc.id);
+        return resolve(doc.id);
       });
   });
 }
