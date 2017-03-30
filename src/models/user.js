@@ -1,16 +1,21 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  oauth_id: {
+  access_token: String,
+  isAdmin: {
     require: true,
-    type: String,
+    type: Boolean,
+    default: false,
   },
   name: {
     require: true,
     type: String,
   },
+  oauth_id: {
+    require: true,
+    type: String,
+  },
   picture: String,
-  access_token: String,
 }, { timestamps: true });
 
 UserSchema.set('toJSON', { virtuals: true });
