@@ -213,14 +213,17 @@ describe('bet', () => {
 
   describe('PATCH /bets', () => {
     it('should set user\'s bets to paid', (done) => {
-      const updated = {
-        isPaid: true,
+      const data = {
+        userId: 'awefawefaewfaf',
+        update: {
+          isPaid: true,
+        }
       };
       request(app)
         .patch(`/api/bets/${period.id}`)
         .set('x-access-token', 'xxxx')
         .expect(200)
-        .send(updated)
+        .send(data)
         .end((err) => {
           if (err) {
             done(err);
@@ -242,14 +245,17 @@ describe('bet', () => {
     });
 
     it('should set user\'s bets to un-paid', (done) => {
-      const updated = {
-        isPaid: false,
+      const data = {
+        userId: 'awefawefaewfaf',
+        update: {
+          isPaid: false,
+        }
       };
       request(app)
         .patch(`/api/bets/${period.id}`)
         .set('x-access-token', 'xxxx')
         .expect(200)
-        .send(updated)
+        .send(data)
         .end((err) => {
           if (err) {
             done(err);
