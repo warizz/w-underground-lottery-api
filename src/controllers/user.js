@@ -14,35 +14,6 @@ function facebookAuthenticator(short_lived_token) {
   });
 }
 
-function fakeAuthenticator(access_token) {
-  return new Promise((resolve, reject) => {
-    if (!access_token) {
-      reject('invalid token');
-      return;
-    }
-    resolve(access_token);
-  });
-}
-
-function getToken(authenticator, short_lived_token) {
-  return authenticator(short_lived_token);
-}
-
-function get(req, res) {
-  User
-    .findById(req.user_id)
-    .select('id is_admin name picture')
-    .exec((error, doc) => {
-      if (error) {
-        return res.status(400).send();
-      }
-      if (!doc) {
-        return res.status(401).send();
-      }
-      return res.status(200).json(doc);
-    });
-}
-
 function facebookProfileGetter(access_token) {
   const params = `/me?fields=name,picture&access_token=${access_token}`;
   const endpoint = `${FACEBOOK_GRAPH_API_BASE_URL}${params}`;
@@ -63,6 +34,16 @@ function facebookProfileGetter(access_token) {
   });
 }
 
+function fakeAuthenticator(access_token) {
+  return new Promise((resolve, reject) => {
+    if (!access_token) {
+      reject('invalid token');
+      return;
+    }
+    resolve(access_token);
+  });
+}
+
 function fakeProfileGetter(access_token) {
   return new Promise((resolve) => {
     resolve({
@@ -77,6 +58,25 @@ function fakeProfileGetter(access_token) {
       },
     });
   });
+}
+
+function get(req, res) {
+  User
+    .findById(req.user_id)
+    .select('id is_admin name picture')
+    .exec((error, doc) => {
+      if (error) {
+        return res.status(400).send();
+      }
+      if (!doc) {
+        return res.status(401).send();
+      }
+      return res.status(200).json(doc);
+    });
+}
+
+function getToken(authenticator, short_lived_token) {
+  return authenticator(short_lived_token);
 }
 
 function logOut(access_token) {
@@ -99,6 +99,7 @@ function normalize(user) {
     name: user.name,
     picture: user.picture,
     access_token: user.access_token,
+    is_admin: user.is_admin,
   };
 }
 
