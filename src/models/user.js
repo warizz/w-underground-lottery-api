@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   access_token: String,
-  isAdmin: {
+  is_admin: {
     require: true,
     type: Boolean,
     default: false,

@@ -29,12 +29,10 @@ function getToken(authenticator, short_lived_token) {
 }
 
 function get(req, res) {
-  console.log("get() user_id", req.user_id)
   User
     .findById(req.user_id)
-    .select('isAdmin name picture')
+    .select('id is_admin name picture')
     .exec((error, doc) => {
-      console.log('error', error)
       if (error) {
         return res.status(400).send();
       }
@@ -135,10 +133,11 @@ function saveUserData(user_data) {
           return;
         }
         const user = new User();
-        user.name = user_data.name;
-        user.picture = user_data.picture.data.url;
         user.access_token = user_data.access_token;
+        user.is_admin = user_data.is_admin;
+        user.name = user_data.name;
         user.oauth_id = user_data.oauth_id;
+        user.picture = user_data.picture.data.url;
         user.save((save_error, new_doc) => {
           if (save_error) {
             return reject(save_error);

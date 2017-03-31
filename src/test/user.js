@@ -36,7 +36,7 @@ describe('User', () => {
               expect(doc.access_token).toExist();
               expect(doc.name).toExist();
               expect(doc.picture).toExist();
-              expect(doc.isAdmin).toBe(false);
+              expect(doc.is_admin).toBe(false);
               done();
             });
           })
@@ -144,7 +144,7 @@ describe('User', () => {
         .then((res) => {
           expect(res.body.name).toExist();
           expect(res.body.picture).toExist();
-          expect(res.body.isAdmin).toBe(false);
+          expect(res.body.is_admin).toBe(false);
           done();
         })
         .catch(done);
