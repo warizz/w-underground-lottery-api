@@ -135,7 +135,6 @@ function saveUserData(user_data) {
         }
         const user = new User();
         user.access_token = user_data.access_token;
-        user.is_admin = user_data.is_admin;
         user.name = user_data.name;
         user.oauth_id = user_data.oauth_id;
         user.picture = user_data.picture.data.url;
