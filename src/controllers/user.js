@@ -36,10 +36,11 @@ function facebookProfileGetter(access_token) {
       .get(endpoint)
       .then((res) => {
         const user = {
-          name: res.data.name,
-          picture: res.data.picture,
-          oauth_id: res.data.id,
           access_token,
+          isAdmin: res.data.isAdmin,
+          name: res.data.name,
+          oauth_id: res.data.id,
+          picture: res.data.picture,
         };
         resolve(user);
       })
@@ -50,14 +51,15 @@ function facebookProfileGetter(access_token) {
 function fakeProfileGetter(access_token) {
   return new Promise((resolve) => {
     resolve({
+      access_token,
+      isAdmin: false,
       name: 'tester testerer',
+      oauth_id: 'awefawefaewfaf',
       picture: {
         data: {
           url: 'https://scontent.fbkk1-4.fna.fbcdn.net/v/t1.0-9/13151495_10153419716527676_5289925877114749609_n.jpg',
         },
       },
-      oauth_id: 'awefawefaewfaf',
-      access_token,
     });
   });
 }
