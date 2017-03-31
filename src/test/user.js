@@ -36,6 +36,7 @@ describe('User', () => {
               expect(doc.access_token).toExist();
               expect(doc.name).toExist();
               expect(doc.picture).toExist();
+              expect(doc.isAdmin).toBe(false);
               done();
             });
           })
