@@ -3,6 +3,8 @@ const request = require('supertest');
 const app = require('../server');
 const { Period } = require('../models/index');
 
+const access_token = 'awfeaewfaefaewfaewfafew';
+
 describe('period', () => {
   before((done) => {
     Period.remove({}, done);
@@ -22,7 +24,7 @@ describe('period', () => {
       };
       request(app)
         .post('/api/period')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .send(period)
         .expect(201)
         .end((err, res) => {
@@ -42,7 +44,7 @@ describe('period', () => {
       };
       request(app)
         .post('/api/period')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .send(period)
         .expect(400)
         .end(done);
@@ -60,7 +62,7 @@ describe('period', () => {
     it('should get latest period', (done) => {
       request(app)
         .get('/api/period')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .expect(200)
         .end((err, res) => {
           if (err) {
@@ -87,7 +89,7 @@ describe('period', () => {
         };
         request(app)
           .patch(`/api/period/${doc._id}`)
-          .set('x-access-token', 'xxxx')
+          .set('x-access-token', access_token)
           .send(updated)
           .expect(200)
           .end((err, res) => {
@@ -112,7 +114,7 @@ describe('period', () => {
         };
         request(app)
           .patch(`/api/period/${doc._id}`)
-          .set('x-access-token', 'xxxx')
+          .set('x-access-token', access_token)
           .send(updated)
           .expect(200)
           .end((err, res) => {

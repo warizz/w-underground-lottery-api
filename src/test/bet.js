@@ -1,7 +1,9 @@
 const expect = require('expect');
 const request = require('supertest');
 const app = require('../server');
-const { Bet, Period } = require('../models/index');
+const { Bet, Period, User } = require('../models/index');
+
+const access_token = 'awfeaewfaefaewfaewfafew';
 
 describe('bet', () => {
   const period = {};
@@ -31,7 +33,7 @@ describe('bet', () => {
 
       request(app)
         .post('/api/bet')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .send(bet)
         .expect(400)
         .end((err, res) => {
@@ -47,7 +49,7 @@ describe('bet', () => {
 
       request(app)
         .post('/api/bet')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .send(bet)
         .expect(400)
         .end((err, res) => {
@@ -62,7 +64,7 @@ describe('bet', () => {
 
       request(app)
         .post('/api/bet')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .send(bet)
         .expect(400)
         .end((err, res) => {
@@ -80,7 +82,7 @@ describe('bet', () => {
 
       request(app)
         .post('/api/bet')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .send(bet)
         .expect(400)
         .end((err, res) => {
@@ -98,7 +100,7 @@ describe('bet', () => {
 
       request(app)
         .post('/api/bet')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .send(bet)
         .expect(400)
         .end((err, res) => {
@@ -117,7 +119,7 @@ describe('bet', () => {
 
       request(app)
         .post('/api/bet')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .send(bet)
         .expect(201)
         .end((err, res) => {
@@ -137,7 +139,7 @@ describe('bet', () => {
     it('should get latest period with bets', (done) => {
       request(app)
         .get('/api/period')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .expect(200)
         .end((err, res) => {
           if (err) {
@@ -163,25 +165,29 @@ describe('bet', () => {
       ];
       request(app)
         .post(`/api/bets/${period.id}`)
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .expect(201)
         .send(updates)
         .end((err) => {
           if (err) {
             done(err);
           }
-          Period
+          User
             .findOne()
-            .sort('-createdAt')
-            .populate({
-              match: { createdBy: 'awefawefaewfaf' },
-              path: 'bets',
-              select: 'id createdBy number price1 price2 price3',
-            })
-            .select('id createdAt endedAt bets')
-            .exec((error, doc) => {
-              expect(doc.bets.length).toBe(4);
-              done();
+            .exec((error, user) => {
+              Period
+                .findOne()
+                .sort('-createdAt')
+                .populate({
+                  match: { createdBy: user.id },
+                  path: 'bets',
+                  select: 'id createdBy number price1 price2 price3',
+                })
+                .select('id createdAt endedAt bets')
+                .exec((error, doc) => {
+                  expect(doc.bets.length).toBe(4);
+                  done();
+                });
             });
         });
     });
@@ -196,7 +202,7 @@ describe('bet', () => {
       };
       request(app)
         .patch(`/api/bet/${bet.id}`)
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .expect(200)
         .send(updated)
         .end((err, res) => {
@@ -213,65 +219,79 @@ describe('bet', () => {
 
   describe('PATCH /bets', () => {
     it('should set user\'s bets to paid', (done) => {
-      const data = {
-        userId: 'awefawefaewfaf',
-        update: {
-          isPaid: true,
-        }
-      };
-      request(app)
-        .patch(`/api/bets/${period.id}`)
-        .set('x-access-token', 'xxxx')
-        .expect(200)
-        .send(data)
-        .end((err) => {
-          if (err) {
-            done(err);
-          }
-          Period
-            .findOne()
-            .sort('-createdAt')
-            .populate({
-              match: { createdBy: 'awefawefaewfaf' },
-              path: 'bets',
-              select: '-createdAt -createdBy -period -__v'
-            })
-            .select('-createdAt -createdBy -__v ')
-            .exec((error, doc) => {
-              expect(doc.bets[0].isPaid).toBe(true);
-              done();
+      User
+        .findOne()
+        .exec((user_error, user) => {
+          if (user_error) return done(user_error);
+          const data = {
+            query: {
+              createdBy: user.id,
+            },
+            update: {
+              isPaid: true,
+            }
+          };
+          request(app)
+            .patch(`/api/bets/${period.id}`)
+            .set('x-access-token', access_token)
+            .expect(200)
+            .send(data)
+            .end((err) => {
+              if (err) {
+                done(err);
+              }
+              Period
+                .findOne()
+                .sort('-createdAt')
+                .populate({
+                  match: { createdBy: user.id },
+                  path: 'bets',
+                  select: '-createdAt -createdBy -period -__v'
+                })
+                .select('-createdAt -createdBy -__v ')
+                .exec((error, doc) => {
+                  expect(doc.bets[0].isPaid).toBe(true);
+                  done();
+                });
             });
         });
     });
 
     it('should set user\'s bets to un-paid', (done) => {
-      const data = {
-        userId: 'awefawefaewfaf',
-        update: {
-          isPaid: false,
-        }
-      };
-      request(app)
-        .patch(`/api/bets/${period.id}`)
-        .set('x-access-token', 'xxxx')
-        .expect(200)
-        .send(data)
-        .end((err) => {
-          if (err) {
-            done(err);
-          }
-          Period
-            .findOne()
-            .sort('-createdAt')
-            .populate({
-              match: { createdBy: 'awefawefaewfaf' },
-              path: 'bets',
-              select: '-createdAt -createdBy -period -__v'
-            })
-            .select('-createdAt -createdBy -__v ')
-            .exec((error, doc) => {
-              expect(doc.bets[0].isPaid).toBe(false);
-              done();
+      User
+        .findOne()
+        .exec((user_error, user) => {
+          if (user_error) return done(user_error);
+          const data = {
+            query: {
+              createdBy: user.id,
+            },
+            update: {
+              isPaid: false,
+            }
+          };
+          request(app)
+            .patch(`/api/bets/${period.id}`)
+            .set('x-access-token', access_token)
+            .expect(200)
+            .send(data)
+            .end((err) => {
+              if (err) {
+                done(err);
+              }
+              Period
+                .findOne()
+                .sort('-createdAt')
+                .populate({
+                  match: { createdBy: user.id },
+                  path: 'bets',
+                  select: '-createdAt -createdBy -period -__v'
+                })
+                .select('-createdAt -createdBy -__v ')
+                .exec((error, doc) => {
+                  expect(doc.bets[0].isPaid).toBe(false);
+                  done();
+                });
             });
         });
     });
@@ -281,7 +301,7 @@ describe('bet', () => {
     it('should get history list', (done) => {
       request(app)
         .get('/api/history')
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .expect(200)
         .end((err, res) => {
           if (err) {
@@ -297,7 +317,7 @@ describe('bet', () => {
     it('should delete a bet', (done) => {
       request(app)
         .delete(`/api/bet/${bet.id}`)
-        .set('x-access-token', 'xxxx')
+        .set('x-access-token', access_token)
         .expect(200)
         .end((err) => {
           if (err) {

@@ -28,6 +28,23 @@ function getToken(authenticator, short_lived_token) {
   return authenticator(short_lived_token);
 }
 
+function get(req, res) {
+  console.log("get() user_id", req.user_id)
+  User
+    .findById(req.user_id)
+    .select('isAdmin name picture')
+    .exec((error, doc) => {
+      console.log('error', error)
+      if (error) {
+        return res.status(400).send();
+      }
+      if (!doc) {
+        return res.status(401).send();
+      }
+      return res.status(200).json(doc);
+    });
+}
+
 function facebookProfileGetter(access_token) {
   const params = `/me?fields=name,picture&access_token=${access_token}`;
   const endpoint = `${FACEBOOK_GRAPH_API_BASE_URL}${params}`;
@@ -155,6 +172,7 @@ module.exports = {
   facebookProfileGetter,
   fakeAuthenticator,
   fakeProfileGetter,
+  get,
   getToken,
   logOut,
   post,

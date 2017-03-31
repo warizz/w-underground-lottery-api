@@ -1,12 +1,15 @@
 const { Bet, Period } = require('../models/index');
 
 function patch(req, res, next) {
-  Bet.update({ period: req.params.periodId, createdBy: req.body.userId }, req.body.update, { multi: true }, (error) => {
-    if (error) {
-      return next(error);
-    }
-    res.status(200).send();
-  });
+  Bet
+    .where('period').eq(req.params.periodId)
+    .where(req.body.query)
+    .setOptions({ multi: true })
+    .update(req.body.update)
+    .exec((error) => {
+      if (error) return next(error);
+      res.status(200).send();
+    });
 }
 
 function post(req, res, next) {

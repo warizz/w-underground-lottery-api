@@ -11,7 +11,7 @@ mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODB_URI);
 
 const authenticator = {
-  'test': controllers.middleware.fakeAuthenticator,
+  'test': controllers.middleware.facebookAuthenticator,
   'development': controllers.middleware.facebookAuthenticator,
   'production': controllers.middleware.facebookAuthenticator,
 };
@@ -22,17 +22,6 @@ app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: true }));
 
 const router = express.Router();
-router.route('/log_in')
-  .post(controllers.user.post);
-
-router.route('/period')
-  .all(authenticator[process.env.NODE_ENV])
-  .get(controllers.period.get)
-  .post(controllers.period.post);
-
-router.route('/period/:id')
-  .all(authenticator[process.env.NODE_ENV])
-  .patch(controllers.period.patch);
 
 router.route('/bet')
   .all(authenticator[process.env.NODE_ENV])
@@ -51,6 +40,22 @@ router.route('/bets/:periodId')
 router.route('/history')
   .all(authenticator[process.env.NODE_ENV])
   .get(controllers.history.get);
+
+router.route('/me')
+  .all(authenticator[process.env.NODE_ENV])
+  .get(controllers.user.get);
+
+router.route('/log_in')
+  .post(controllers.user.post);
+
+router.route('/period')
+  .all(authenticator[process.env.NODE_ENV])
+  .get(controllers.period.get)
+  .post(controllers.period.post);
+
+router.route('/period/:id')
+  .all(authenticator[process.env.NODE_ENV])
+  .patch(controllers.period.patch);
 
 router.route('/summary/:period_id')
   .all(authenticator[process.env.NODE_ENV])

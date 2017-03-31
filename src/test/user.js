@@ -4,8 +4,8 @@ const { User } = require('../models/index');
 const controller = require('../controllers/index');
 const app = require('../server');
 
-const access_token = 'test_token';
-const access_token_2 = 'test_token_2';
+const access_token = 'fefefefaewfaefaef';
+const access_token_2 = 'awfeaewfaefaewfaewfafew';
 
 describe('User', () => {
   before((done) => {
@@ -132,6 +132,20 @@ describe('User', () => {
               expect(doc.access_token).toBe(access_token_2);
               done();
             });
+        })
+        .catch(done);
+    });
+
+    it('should get user data', (done) => {
+      request(app)
+        .get('/api/me')
+        .set('x-access-token', access_token_2)
+        .expect(200)
+        .then((res) => {
+          expect(res.body.name).toExist();
+          expect(res.body.picture).toExist();
+          expect(res.body.isAdmin).toBe(false);
+          done();
         })
         .catch(done);
     });
