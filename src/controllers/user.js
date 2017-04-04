@@ -133,6 +133,10 @@ function saveUserData(user_data) {
             });
           return;
         }
+        const allowNewUser = process.env.ALLOW_NEW_USER || false;
+        if (!allowNewUser) {
+          return reject('not allowed');
+        }
         const user = new User();
         user.access_token = user_data.access_token;
         user.name = user_data.name;
