@@ -81,23 +81,13 @@ function getToken(authenticator, short_lived_token) {
 
 function logOut(req, res, next) {
   User
-    .where({ user_id: req.user_id })
-    .findOne()
+    .findById(req.user_id)
     .update({ $unset: { access_token: '' } })
     .exec((error, raw) => {
       if (error) return next(error);
       if (raw.nModified > 0) return res.status(200).send();
       return res.status(401).send();
     });
-}
-
-function normalize(user) {
-  return {
-    name: user.name,
-    picture: user.picture,
-    access_token: user.access_token,
-    is_admin: user.is_admin,
-  };
 }
 
 function post(req, res) {
@@ -107,7 +97,7 @@ function post(req, res) {
   getToken(authenticator, access_token)
     .then(profileGetter)
     .then(saveUserData)
-    .then(user => res.status(200).json(normalize(user)))
+    .then(user => res.status(200).json({ access_token: user.access_token }))
     .catch(error => res.status(401).send(error));
 }
 

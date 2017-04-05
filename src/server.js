@@ -45,6 +45,7 @@ router.route('/log_in')
   .post(controllers.user.post);
 
 router.route('/log_out')
+  .all(authenticator)
   .patch(controllers.user.logOut);
 
 router.route('/period')

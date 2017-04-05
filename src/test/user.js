@@ -78,27 +78,6 @@ describe('User', () => {
       request(app)
         .post('/api/log_in')
         .expect(401)
-        .then((res) => {
-          const user = res.body;
-          expect(user).toExist();
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should log user out', (done) => {
-      request(app)
-        .patch('/api/log_out')
-        .set('x-access-token', access_token_2)
-        .expect(200)
-        .end(done);
-    });
-
-    it('should not get user data', (done) => {
-      request(app)
-        .get('/api/me')
-        .set('x-access-token', access_token_2)
-        .expect(401)
         .end(done);
     });
 
@@ -114,21 +93,29 @@ describe('User', () => {
         .catch(done);
     });
 
+    it('should log user out', (done) => {
+      request(app)
+        .patch('/api/log_out')
+        .set('x-access-token', access_token)
+        .expect(200)
+        .end(done);
+    });
+
+    it('should not get user data', (done) => {
+      request(app)
+        .get('/api/me')
+        .set('x-access-token', access_token)
+        .expect(401)
+        .end(done);
+    });
+
     it('should udpate user token', (done) => {
       request(app)
         .post('/api/log_in')
         .send({ access_token: access_token_2 })
-        .then(() => {
-          User
-            .where({ access_token: access_token_2 })
-            .findOne()
-            .exec((error, doc) => {
-              if (error) {
-                done(error);
-              }
-              expect(doc.access_token).toBe(access_token_2);
-              done();
-            });
+        .then((res) => {
+          expect(res.body.access_token).toBe(access_token_2);
+          done();
         })
         .catch(done);
     });
