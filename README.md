@@ -1,8 +1,10 @@
-# api for underground lottery
+# underground lottery api
 
-## required
+api server for underground lottery
 
-config.json at project's root/
+## development instruction
+
+create ```config.json``` in project's ```root/```
 
 ```
 {
@@ -23,32 +25,157 @@ config.json at project's root/
 }
 ```
 
-## api
-
-### PATCH /bet/:id
-remove bet from /bet and /period
-
-#### url parameters
-- id (String)
-
-#### body parameters
-- bet (Object)
-
-#### returns
-- bet (Object): updated doc
+## usage
+### content
+- [base url](#base-url)
+- [logging in](#logging-in)
+- [logging out](#logging-out)
+- [get user profile](#get-user-profile)
+- [get latest period data](#get-latest-period-data)
+- [create new period](#create-new-period)
 
 ---
 
-### DELETE /bet/:id
-remove bet from /bet and /period
-
-#### url parameters
-- id (String)
-
-#### body parameters
-- null
-
-#### returns
-- null
+### base url
+```
+https://w-underground-lottery-api.herokuapp.com/api
+```
 
 ---
+
+### logging in
+```
+POST /log_in
+```
+
+#### required
+* http header
+
+```
+{
+  "x-access-token": { Facebook's short-lived access token for this app }
+}
+```
+
+#### successful response
+```
+HTTP/1.0 200 OK
+Content-Type: application/json
+{
+  "access_token": { Facebook's generated access token  }
+}
+```
+
+---
+
+### logging out
+```
+PATCH /log_out
+```
+
+#### required
+* http header
+
+```
+{
+  "x-access-token": { Facebook's short-lived access token for this app }
+}
+```
+
+#### successful response
+```
+HTTP/1.0 200 OK
+```
+
+---
+
+### get user profile
+```
+GET /me
+```
+
+#### required
+* http header
+
+```
+{
+  "x-access-token": { Facebook's short-lived access token for this app }
+}
+```
+
+#### successful response
+```
+HTTP/1.0 200 OK
+Content-Type: application/json
+{
+  "id": ObjectId,
+  "is_admin": Boolean,
+  "name": String,
+  "picture": String (URL),
+}
+```
+
+---
+
+### get latest period data
+```
+GET /period
+```
+
+#### required
+* http header
+
+```
+{
+  "x-access-token": { Facebook's short-lived access token for this app }
+}
+```
+
+#### successful response id createdAt endedAt isOpen bets result
+```
+HTTP/1.0 200 OK
+Content-Type: application/json
+{
+  "id": ObjectId,
+  "createdAt": Date,
+  "endedAt": Date,
+  "isOpen": Boolean,
+  "bets": [bets],
+  "result": { result },
+}
+```
+
+---
+
+### reate new period
+```
+POST /period
+```
+
+#### required
+* http header
+
+```
+{
+  "x-access-token": { Facebook's short-lived access token for this app }
+}
+```
+* request body
+
+```
+{
+  "endedAt": Date,
+}
+```
+
+#### successful response
+```
+HTTP/1.0 201 OK
+Content-Type: application/json
+{
+  "id": ObjectId,
+  "createdAt": Date,
+  "endedAt": Date,
+  "isOpen": Boolean,
+}
+```
