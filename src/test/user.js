@@ -70,25 +70,6 @@ describe('User', () => {
           })
           .catch(done);
       });
-
-      it('should log user out', (done) => {
-        controller
-          .user
-          .logOut(access_token_2)
-          .then(() => {
-            User
-              .where({ access_token_2 })
-              .findOne()
-              .exec((error, doc) => {
-                if (error) {
-                  done(error);
-                }
-                expect(doc).toNotExist();
-                done();
-              });
-          })
-          .catch(done);
-      });
     });
   });
 
@@ -103,6 +84,22 @@ describe('User', () => {
           done();
         })
         .catch(done);
+    });
+
+    it('should log user out', (done) => {
+      request(app)
+        .patch('/api/log_out')
+        .set('x-access-token', access_token_2)
+        .expect(200)
+        .end(done);
+    });
+
+    it('should not get user data', (done) => {
+      request(app)
+        .get('/api/me')
+        .set('x-access-token', access_token_2)
+        .expect(401)
+        .end(done);
     });
 
     it('should log in successfully', (done) => {

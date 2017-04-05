@@ -79,19 +79,16 @@ function getToken(authenticator, short_lived_token) {
   return authenticator(short_lived_token);
 }
 
-function logOut(access_token) {
-  return new Promise((resolve, reject) => {
-    User
-      .where({ access_token })
-      .findOne()
-      .remove((error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
-  });
+function logOut(req, res, next) {
+  User
+    .where({ user_id: req.user_id })
+    .findOne()
+    .update({ $unset: { access_token: '' } })
+    .exec((error, raw) => {
+      if (error) return next(error);
+      if (raw.nModified > 0) return res.status(200).send();
+      return res.status(401).send();
+    });
 }
 
 function normalize(user) {
