@@ -3,6 +3,7 @@ const Period = require('../models/period');
 function get(req, res, next) {
   Period
     .find()
+    .where({ isOpen: false })
     .sort('-createdAt')
     .limit(10)
     .populate({
