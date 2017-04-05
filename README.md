@@ -48,7 +48,7 @@ https://w-underground-lottery-api.herokuapp.com/api
 POST /log_in
 ```
 
-#### required
+#### request
 * http header
 
 ```
@@ -73,7 +73,7 @@ Content-Type: application/json
 PATCH /log_out
 ```
 
-#### required
+#### request
 * http header
 
 ```
@@ -94,7 +94,7 @@ HTTP/1.0 200 OK
 GET /me
 ```
 
-#### required
+#### request
 * http header
 
 ```
@@ -122,7 +122,7 @@ Content-Type: application/json
 GET /period
 ```
 
-#### required
+#### request
 * http header
 
 ```
@@ -147,12 +147,12 @@ Content-Type: application/json
 
 ---
 
-### reate new period
+### create new period
 ```
 POST /period
 ```
 
-#### required
+#### request
 * http header
 
 ```
@@ -177,5 +177,44 @@ Content-Type: application/json
   "createdAt": Date,
   "endedAt": Date,
   "isOpen": Boolean,
+}
+```
+
+---
+
+### update period
+```
+PATCH /period
+```
+
+#### request
+* http header
+
+```
+{
+  "x-access-token": { Facebook's short-lived access token for this app }
+}
+```
+* request body
+
+```
+{
+  "bets": [bets],
+  "isOpen": Date,
+  "result": { result },
+}
+```
+
+#### successful response
+```
+HTTP/1.0 200 OK
+Content-Type: application/json
+{
+  "bets": [bets],
+  "createdAt": Date,
+  "endedAt": Date,
+  "id": ObjectId,
+  "isOpen": Boolean,
+  "result": { result },
 }
 ```
