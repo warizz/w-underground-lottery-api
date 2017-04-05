@@ -86,8 +86,7 @@ describe('User', () => {
         .post('/api/log_in')
         .send({ access_token })
         .then((res) => {
-          const user = res.body;
-          expect(user).toExist();
+          expect(res.body.access_token).toExist();
           done();
         })
         .catch(done);
