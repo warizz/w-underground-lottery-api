@@ -11,16 +11,14 @@ create ```config.json``` in project's ```root/```
   "development": {
     "PORT": 3005,
     "MONGODB_URI": "mongodb://localhost:27017/UndergroundLottery",
-    "FACEBOOK_APP_ID": {},
-    "FACEBOOK_APP_SECRET": {},
-    "ALLOW_NEW_USER": {true || false}
+    "FACEBOOK_APP_ID": String,
+    "FACEBOOK_APP_SECRET": String,
+    "ALLOW_NEW_USER": Boolean
   },
   "test": {
-    "PORT": 3005,
+    "PORT": 3010,
     "MONGODB_URI": "mongodb://localhost:27017/UndergroundLotteryTest",
-    "FACEBOOK_APP_ID": {},
-    "FACEBOOK_APP_SECRET": {},
-    "ALLOW_NEW_USER":  {true || false}
+    "ALLOW_NEW_USER":  Boolean
   }
 }
 ```
