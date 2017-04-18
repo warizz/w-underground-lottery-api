@@ -35,7 +35,7 @@ function get(req, res, next) {
     .populate({
       match: { createdBy: req.user_id },
       path: 'bets',
-      select: 'createdBy id isPaid number price1 price2 price3',
+      select: 'createdAt createdBy id isPaid number price1 price2 price3',
     })
     .select('id createdAt endedAt isOpen bets result')
     .exec((error, doc) => {
