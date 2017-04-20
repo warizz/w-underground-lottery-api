@@ -15,7 +15,7 @@ const authenticator = controllers.middleware.facebookAuthenticator;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors());
 
 const router = express.Router();
 
