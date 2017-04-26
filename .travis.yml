@@ -8,3 +8,4 @@ deploy:
   app: w-underground-lottery-api
   on:
     repo: warizz/w-underground-lottery-api
+    branch: master
