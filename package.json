@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "dev": "export NODE_ENV=development || SET NODE_ENV=development&& nodemon ./src/server.js",
     "test": "mocha ./src/test/index.js",
-    "test-watch": "export NODE_ENV=test || SET NODE_ENV=test&& nodemon --exec npm run test"
+    "test-watch": "export NODE_ENV=test || SET NODE_ENV=test&& nodemon --exec npm run test",
+    "codecov": "export NODE_ENV=test || SET NODE_ENV=test&& istanbul cover ./node_modules/mocha/bin/_mocha src/test/index.js --report lcovonly -- -R spec"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "eslint": "^3.17.1",
     "eslint-plugin-node": "^4.2.0",
     "expect": "^1.20.2",
+    "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "supertest": "^3.0.0"
