@@ -1,11 +1,3 @@
 language: node_js
 node_js:
 - '6'
-deploy:
-  provider: heroku
-  api_key:
-    secure: P0XOONSFtKGlvmunJs21WdP/M6qeAKh00gUqI9/KhGh8tZQDqAwAcS0sV4lnWi5m0VjGCMQwkJuS29i3Mscw0lPTkjBrdOlS61B+30xrbAvFEsJLhRV1U9NiarBU4E/oA0IaOHt2UiJUrH0ELPEr4PEZ43J/Cf2LXh/wsqMjQO6nc31khIVIUVNX4BkflCuRWipDUbQUGDhNRGEgrcvqlID7e8R/Eh8EdHQT6/W1wFGoFZ42TduZ9bLn1rc6SuIUb5XQ2xsYUNboSV0dqZRJN7NHKmc1wRNd6xABYnHIYgxCCqJKdDLTeX4pIXXYcVki5s8VjfXcJPVoA+FheDDwrF0Km4DLqqL26eS2JbeeUYjLDqICHlOfYy7x3A+wcXQQfS+KqtU7xapYsB5QLuZjD0qoLZ3WPZkAH9vq7I04sAb3oAmzmXlHBytIGAAqDKMT2qrt1JgaIzPZuw9mhc4AcSK+kAsdj/FVqXFZ6I/Otc7IHBKXeAbT5VdJjff+Yf7lZTMBF7QV04BYKijcp59YbGXiOn75TJVEP+R7KGX1iyD22SjVJaStxLAk2nYi5PAUm2hp1kFQgLn2cAib/vYYjl/fKVEFucIwpcagenSld5UcKxwFSp41DjSHxQWGRKqq+sh2IpgqfH1679udvyaXl0N+IDnz2fDi9L+tJyLLPVM=
-  app: w-underground-lottery-api
-  on:
-    repo: warizz/w-underground-lottery-api
-    branch: master
