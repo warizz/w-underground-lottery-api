@@ -1,6 +1,7 @@
 # underground lottery api
+[![Build Status](https://travis-ci.org/warizz/w-underground-lottery-api.svg?branch=master)](https://travis-ci.org/warizz/w-underground-lottery-api)  
 
-api server for underground lottery
+api for [warizz/w-underground-lottery](https://github.com/warizz/w-underground-lottery)
 
 ## development instruction
 
