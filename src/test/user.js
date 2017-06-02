@@ -103,19 +103,5 @@ describe('User', () => {
         })
         .catch(done);
     });
-
-    it('should get user data', (done) => {
-      request(app)
-        .get('/api/me')
-        .set('x-access-token', access_token_2)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.name).toExist();
-          expect(res.body.picture).toExist();
-          expect(res.body.is_admin).toBe(false);
-          done();
-        })
-        .catch(done);
-    });
   });
 });
