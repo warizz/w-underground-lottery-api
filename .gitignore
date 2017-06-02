@@ -6,4 +6,4 @@ coverage
 .env
 
 config.json
-npm-debug.log
+npm-debug.log*
