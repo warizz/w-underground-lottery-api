@@ -60,18 +60,6 @@ function fakeProfileGetter(access_token) {
   });
 }
 
-function get(req, res) {
-  User.findById(req.user_id).select('id is_admin name picture').exec((error, doc) => {
-    if (error) {
-      return res.status(400).send();
-    }
-    if (!doc) {
-      return res.status(401).send();
-    }
-    return res.status(200).json(doc);
-  });
-}
-
 function getToken(authenticator, short_lived_token) {
   return authenticator(short_lived_token);
 }
@@ -153,7 +141,6 @@ module.exports = {
   facebookProfileGetter,
   fakeAuthenticator,
   fakeProfileGetter,
-  get,
   getToken,
   logOut,
   post,
