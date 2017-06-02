@@ -3,6 +3,7 @@ data
 coverage
 
 .vs
+.env
 
 config.json
 npm-debug.log
