@@ -15,8 +15,7 @@ describe('User', () => {
   describe('controller functions', () => {
     describe('first login', () => {
       it('should exchange short-lived token for long-lived token', (done) => {
-        controller
-          .user
+        controller.user
           .getToken(controller.user.fakeAuthenticator, access_token)
           .then((res) => {
             expect(res).toExist();
@@ -26,12 +25,11 @@ describe('User', () => {
       });
 
       it('should store user data to db', (done) => {
-        controller
-          .user
+        controller.user
           .getToken(controller.user.fakeAuthenticator, access_token)
           .then(controller.user.fakeProfileGetter)
           .then(controller.user.saveUserData)
-          .then((user)=> {
+          .then((user) => {
             User.findById(user.id, (error, doc) => {
               expect(doc.access_token).toExist();
               expect(doc.name).toExist();
@@ -44,12 +42,11 @@ describe('User', () => {
       });
 
       it('should update user token', (done) => {
-        controller
-          .user
+        controller.user
           .getToken(controller.user.fakeAuthenticator, access_token_2)
           .then(controller.user.fakeProfileGetter)
           .then(controller.user.saveUserData)
-          .then((user)=> {
+          .then((user) => {
             User.findById(user.id, (error, doc) => {
               expect(doc.access_token).toBe(access_token_2);
               done();
@@ -61,8 +58,7 @@ describe('User', () => {
 
     describe('API validation', () => {
       it('should be valid token', (done) => {
-        controller
-          .user
+        controller.user
           .validateToken(access_token_2)
           .then((user_id) => {
             expect(user_id).toExist();
@@ -75,10 +71,7 @@ describe('User', () => {
 
   describe('endpoint', () => {
     it('should get 401', (done) => {
-      request(app)
-        .post('/api/log_in')
-        .expect(401)
-        .end(done);
+      request(app).post('/api/log_in').expect(401).end(done);
     });
 
     it('should log in successfully', (done) => {
@@ -93,19 +86,11 @@ describe('User', () => {
     });
 
     it('should log user out', (done) => {
-      request(app)
-        .patch('/api/log_out')
-        .set('x-access-token', access_token)
-        .expect(200)
-        .end(done);
+      request(app).patch('/api/log_out').set('x-access-token', access_token).expect(200).end(done);
     });
 
     it('should not get user data', (done) => {
-      request(app)
-        .get('/api/me')
-        .set('x-access-token', access_token)
-        .expect(401)
-        .end(done);
+      request(app).get('/api/me').set('x-access-token', access_token).expect(401).end(done);
     });
 
     it('should udpate user token', (done) => {
