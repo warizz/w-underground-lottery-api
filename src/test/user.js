@@ -15,7 +15,10 @@ describe('* User', function() {
       const Mockgoose = require('mockgoose').Mockgoose; // eslint-disable-line node/no-unpublished-require
       const mockgoose = new Mockgoose(mongoose);
       mockgoose.prepareStorage().then(() => {
-        mongoose.connect('mongodb://localhost:4000/underground_lottery_unit_test', done);
+        mongoose.connect(
+          'mongodb://localhost:4000/underground_lottery_unit_test',
+          done
+        );
       });
     });
 
@@ -39,11 +42,53 @@ describe('* User', function() {
       };
       const mock_repository = {
         find_by_id() {
+          return new Promise((resolve) => {
+            resolve({});
+          });
+        }
+      };
+      const user_controller = new UserController(mock_repository);
+      user_controller.get(mock_req, mock_res);
+    });
+    it('should get 401 status when call get()', (done) => {
+      const mock_req = {};
+      const mock_res = {
+        status(code) {
+          expect(code).toBe(401);
           return {
-            then() {
-              return mock_res.status(200).json({});
+            send() {
+              done();
             }
           };
+        }
+      };
+      const mock_repository = {
+        find_by_id() {
+          return new Promise((resolve) => {
+            resolve();
+          });
+        }
+      };
+      const user_controller = new UserController(mock_repository);
+      user_controller.get(mock_req, mock_res);
+    });
+    it('should get 500 status when call get()', (done) => {
+      const mock_req = {};
+      const mock_res = {
+        status(code) {
+          expect(code).toBe(500);
+          return {
+            send() {
+              done();
+            }
+          };
+        }
+      };
+      const mock_repository = {
+        find_by_id() {
+          return new Promise((resolve, reject) => {
+            reject();
+          });
         }
       };
       const user_controller = new UserController(mock_repository);
