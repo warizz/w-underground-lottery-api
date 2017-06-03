@@ -32,7 +32,7 @@ describe('LogInController', () => {
       }
     };
     const mock_repository = {
-      save_or_update() {
+      upsert() {
         return new Promise(resolve =>
           resolve({ access_token: 'access_token_2' })
         );
@@ -60,7 +60,7 @@ describe('LogInController', () => {
       }
     };
     const mock_repository = {
-      save_or_update() {
+      upsert() {
         return new Promise((resolve, reject) => reject());
       }
     };

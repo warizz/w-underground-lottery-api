@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { UserRepository } = require('../repository/index');
 
 function LogInController(user_repository) {
   const FACEBOOK_GRAPH_API_BASE_URL = 'https://graph.facebook.com';
@@ -40,7 +39,7 @@ function LogInController(user_repository) {
   this.post = function(req, res) {
     _get_facebook_token(req.body.access_token)
       .then(_get_facebook_profile)
-      .then(user_repository.save_or_update)
+      .then(user_repository.upsert)
       .then(user => res.status(200).json({ access_token: user.access_token }))
       .catch(error => res.status(401).send(error));
   };
