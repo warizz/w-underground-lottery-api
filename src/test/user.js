@@ -50,7 +50,7 @@ describe('* User', function() {
           }
         };
         const user_controller = new UserController(mock_repository);
-        user_controller.authenticate(mock_req, mock_res, mock_next);
+        user_controller.authentication_middleware(mock_req, mock_res, mock_next);
       });
 
       it('should get 401 status when authenticate() with wrong access_token', (done) => {
@@ -78,7 +78,7 @@ describe('* User', function() {
           }
         };
         const user_controller = new UserController(mock_repository);
-        user_controller.authenticate(mock_req, mock_res, mock_next);
+        user_controller.authentication_middleware(mock_req, mock_res, mock_next);
       });
 
       it('should get 500 status when authenticate() with repository error', (done) => {
@@ -106,7 +106,7 @@ describe('* User', function() {
           }
         };
         const user_controller = new UserController(mock_repository);
-        user_controller.authenticate(mock_req, mock_res, mock_next);
+        user_controller.authentication_middleware(mock_req, mock_res, mock_next);
       });
     });
 
