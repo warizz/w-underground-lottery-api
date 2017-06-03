@@ -18,6 +18,7 @@ app.use(cors());
 
 const controller_factory = new ControllerFactory();
 const user_controller = controller_factory.create('user');
+const log_in_controller = controller_factory.create('log_in');
 
 const router = express.Router();
 
@@ -48,7 +49,7 @@ router
   .all(user_controller.authentication_middleware)
   .get(user_controller.get);
 
-router.route('/log_in').post(controllers.user.post);
+router.route('/log_in').post(log_in_controller.post);
 
 router
   .route('/log_out')
