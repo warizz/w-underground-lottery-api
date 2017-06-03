@@ -1,27 +1,19 @@
 # underground lottery api
-[![Build Status](https://travis-ci.org/warizz/w-underground-lottery-api.svg?branch=master)](https://travis-ci.org/warizz/w-underground-lottery-api)  
+[![Build Status](https://travis-ci.org/warizz/w-underground-lottery-api.svg?branch=master)](https://travis-ci.org/warizz/w-underground-lottery-api)
+[![codecov](https://codecov.io/gh/warizz/w-underground-lottery-api/branch/master/graph/badge.svg)](https://codecov.io/gh/warizz/w-underground-lottery-api)
 
 api for [warizz/w-underground-lottery](https://github.com/warizz/w-underground-lottery)
 
 ## development instruction
 
-create ```config.json``` in project's ```root/```
+create ```.env``` file in project's root to set up environment variables
 
 ```
-{
-  "development": {
-    "PORT": 3005,
-    "MONGODB_URI": "mongodb://localhost:27017/UndergroundLottery",
-    "FACEBOOK_APP_ID": String,
-    "FACEBOOK_APP_SECRET": String,
-    "ALLOW_NEW_USER": Boolean
-  },
-  "test": {
-    "PORT": 3010,
-    "MONGODB_URI": "mongodb://localhost:27017/UndergroundLotteryTest",
-    "ALLOW_NEW_USER":  Boolean
-  }
-}
+PORT=xxx
+MONGODB_URI=xxx
+FACEBOOK_APP_ID=xxx
+FACEBOOK_APP_SECRET=xxx
+ALLOW_NEW_USER=True||False
 ```
 
 ## usage
