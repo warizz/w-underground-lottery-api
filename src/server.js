@@ -5,9 +5,7 @@ const Promise = require('bluebird');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const controllers = require('./controllers/index');
-const { User } = require('./models/index');
-const { UserRepository } = require('./repository/index');
-const { UserController } = require('./controller/index');
+const { ControllerFactory } = require('./factory/index');
 require('./cron/result');
 
 mongoose.Promise = Promise;
@@ -20,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-const user_repository = new UserRepository(User);
-const user_controller = new UserController(user_repository);
+const controller_factory = new ControllerFactory();
+const user_controller = controller_factory.create('user');
 
 const router = express.Router();
 
