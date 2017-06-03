@@ -11,8 +11,6 @@ require('./cron/result');
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODB_URI);
 
-const authenticator = controllers.middleware.facebookAuthenticator;
-
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -23,37 +21,52 @@ const user_controller = controller_factory.create('user');
 
 const router = express.Router();
 
-router.route('/bet').all(authenticator).post(controllers.bet.post);
+router
+  .route('/bet')
+  .all(user_controller.authenticate)
+  .post(controllers.bet.post);
 
 router
   .route('/bet/:id')
-  .all(authenticator)
+  .all(user_controller.authenticate)
   .patch(controllers.bet.patch)
   .delete(controllers.bet.remove);
 
 router
   .route('/bets/:periodId')
-  .all(authenticator)
+  .all(user_controller.authenticate)
   .patch(controllers.bets.patch)
   .post(controllers.bets.post);
 
-router.route('/history').all(authenticator).get(controllers.history.get);
+router
+  .route('/history')
+  .all(user_controller.authenticate)
+  .get(controllers.history.get);
 
-router.route('/me').all(authenticator).get(user_controller.get);
+router.route('/me').all(user_controller.authenticate).get(user_controller.get);
 
 router.route('/log_in').post(controllers.user.post);
 
-router.route('/log_out').all(authenticator).patch(controllers.user.logOut);
+router
+  .route('/log_out')
+  .all(user_controller.authenticate)
+  .patch(controllers.user.logOut);
 
 router
   .route('/period')
-  .all(authenticator)
+  .all(user_controller.authenticate)
   .get(controllers.period.get)
   .post(controllers.period.post);
 
-router.route('/period/:id').all(authenticator).patch(controllers.period.patch);
+router
+  .route('/period/:id')
+  .all(user_controller.authenticate)
+  .patch(controllers.period.patch);
 
-router.route('/summary/:period_id').all(authenticator).get(controllers.summary.get);
+router
+  .route('/summary/:period_id')
+  .all(user_controller.authenticate)
+  .get(controllers.summary.get);
 
 app.use('/api', router);
 app.listen(process.env.PORT);
