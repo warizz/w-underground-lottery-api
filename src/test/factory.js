@@ -3,7 +3,7 @@ const ControllerFactory = require('../factory/controller');
 const { LogInController, UserController } = require('../controller/index');
 
 describe('Factory', () => {
-  describe('ControllerFactory', () => {
+  describe('Controller', () => {
     let controller_factory = new ControllerFactory();
 
     it('should get UserController when call create("user")', (done) => {

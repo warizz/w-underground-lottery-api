@@ -1,5 +1,8 @@
+describe('Repository', () => {
+  require('./repository/user');
+});
+describe('Controller', () => {
+  require('./controller/log_in');
+  require('./controller/user');
+});
 require('./factory');
-require('./user');
-require('./controller/log_in');
-// require('./period');
-// require('./bet');
