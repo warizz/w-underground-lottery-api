@@ -4,10 +4,13 @@ function UserController(repository) {
     repository
       .find_by_token(access_token)
       .then((doc) => {
+        if (!doc) {
+          return res.status(401).send();
+        }
         req.user_id = doc.id;
         next();
       })
-      .catch(error => res.status(401).send(error));
+      .catch(error => res.status(500).send(error));
   };
 
   this.get = function(req, res) {
