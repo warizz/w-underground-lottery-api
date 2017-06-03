@@ -1,6 +1,6 @@
 function UserController(repository) {
-  this.authenticate = function(req, res, next) {
-    let access_token = req.headers['x-access-token'];
+  this.authentication_middleware = function(req, res, next) {
+    const access_token = req.headers['x-access-token'];
     repository
       .find_by_token(access_token)
       .then((doc) => {
