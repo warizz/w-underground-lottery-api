@@ -55,12 +55,6 @@ function PeriodController(period_repository, user_repository, bet_repository) {
             .send(new Error('Invalid operation: period not found'));
         }
 
-        if (period.isOpen) {
-          return res
-            .status(400)
-            .send(new Error('Invalid operation: period is openning'));
-        }
-
         if (
           Object.keys(req.body).length === 0 &&
           req.body.constructor === Object
@@ -76,6 +70,12 @@ function PeriodController(period_repository, user_repository, bet_repository) {
           data.isOpen = isOpen;
         }
         if (result) {
+          if (period.isOpen) {
+            return res
+              .status(400)
+              .send(new Error('Invalid operation: period is openning'));
+          }
+
           data.result = result;
         }
 

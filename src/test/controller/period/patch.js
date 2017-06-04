@@ -330,7 +330,7 @@ describe('patch()', () => {
     controller.patch(mock_req, mock_res);
   });
 
-  it('should get status: 400 when call patch() with period openning (PATCH /periods/latest)', (done) => {
+  it('should get status: 400 when call patch() to update result with period openning (PATCH /periods/latest)', (done) => {
     const mock_period_repository = {
       get_latest() {
         return new Promise(resolve => resolve({ isOpen: true }));
@@ -346,7 +346,16 @@ describe('patch()', () => {
     };
     const mock_req = {
       user_id: 'user_id',
-      body: {},
+      body: {
+        result: {
+          six: '111111',
+          firstThree: '222',
+          secondThree: '333',
+          thirdThree: '444',
+          fourthThree: '555',
+          two: '66'
+        }
+      },
       params: {
         query_type: 'latest'
       }
