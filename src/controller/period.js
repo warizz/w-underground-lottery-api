@@ -75,7 +75,7 @@ function PeriodController(period_repository, user_repository, bet_repository) {
 
   this.post = function(req, res) {
     user_repository.find_by_id(req.user_id).then((user) => {
-      if (!user.isAdmin) {
+      if (!user.is_admin) {
         return res.status(401).send();
       }
 

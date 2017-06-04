@@ -13,7 +13,7 @@ describe('post()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: true }));
+        return new Promise(resolve => resolve({ is_admin: true }));
       }
     };
     const mock_req = {
@@ -48,7 +48,7 @@ describe('post()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: false }));
+        return new Promise(resolve => resolve({ is_admin: false }));
       }
     };
     const mock_req = {
@@ -86,7 +86,7 @@ describe('post()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: true }));
+        return new Promise(resolve => resolve({ is_admin: true }));
       }
     };
     const mock_req = {
@@ -124,7 +124,7 @@ describe('post()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: true }));
+        return new Promise(resolve => resolve({ is_admin: true }));
       }
     };
     const mock_req = {

@@ -1,6 +1,10 @@
 const expect = require('expect');
 const ControllerFactory = require('../factory/controller');
-const { LogInController, UserController } = require('../controller/index');
+const {
+  LogInController,
+  PeriodController,
+  UserController
+} = require('../controller/index');
 
 describe('Factory', () => {
   describe('Controller', () => {
@@ -15,6 +19,12 @@ describe('Factory', () => {
     it('should get LogInController when call create("log_in")', (done) => {
       const controller = controller_factory.create('log_in');
       expect(controller instanceof LogInController).toBe(true);
+      done();
+    });
+
+    it('should get PeriodController when call create("period")', (done) => {
+      const controller = controller_factory.create('period');
+      expect(controller instanceof PeriodController).toBe(true);
       done();
     });
 

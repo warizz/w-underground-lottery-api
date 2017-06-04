@@ -7,6 +7,7 @@ function UserController(repository) {
         if (!doc) {
           return res.status(401).send();
         }
+
         req.user_id = doc.id;
         next();
       })

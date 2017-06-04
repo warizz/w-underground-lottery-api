@@ -19,6 +19,7 @@ app.use(cors());
 const controller_factory = new ControllerFactory();
 const user_controller = controller_factory.create('user');
 const log_in_controller = controller_factory.create('log_in');
+const period_controller = controller_factory.create('period');
 
 const router = express.Router();
 
@@ -71,6 +72,12 @@ router
   .route('/summary/:period_id')
   .all(user_controller.authentication_middleware)
   .get(controllers.summary.get);
+
+router
+  .route('/periods/:query_type')
+  .all(user_controller.authentication_middleware)
+  .post(period_controller.post)
+  .patch(period_controller.patch);
 
 app.use('/api', router);
 app.listen(process.env.PORT);
