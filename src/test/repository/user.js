@@ -95,4 +95,8 @@ describe('User', function() {
       })
       .catch(done);
   });
+
+  after(() => {
+    mongoose.connection.close();
+  });
 });

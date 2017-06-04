@@ -13,6 +13,7 @@
     "space-infix-ops": ["error", { "int32Hint": false }]
   },
   "globals": {
+    "after": true,
     "describe": true,
     "before": true,
     "beforeEach": true,
