@@ -205,13 +205,55 @@ describe('patch()', () => {
     controller.patch(mock_req, mock_res);
   });
 
+  it('should get status: 400 when call patch() with empty body (PATCH /periods/latest)', (done) => {
+    const mock_period_repository = {
+      get_latest() {
+        return new Promise(resolve => resolve({}));
+      },
+      update() {
+        return new Promise(resolve => resolve({}));
+      }
+    };
+    const mock_user_repository = {
+      find_by_id() {
+        return new Promise(resolve => resolve({ is_admin: true }));
+      }
+    };
+    const mock_req = {
+      user_id: 'user_id',
+      body: {},
+      params: {
+        query_type: 'latest'
+      }
+    };
+    const mock_res = {
+      status(code) {
+        expect(code).toBe(400);
+        return {
+          send(error) {
+            expect(error.message).toBe(
+              'Invalid argument: request body is empty'
+            );
+            done();
+          }
+        };
+      }
+    };
+    const controller = new PeriodController(
+      mock_period_repository,
+      mock_user_repository
+    );
+
+    controller.patch(mock_req, mock_res);
+  });
+
   it('should get status: 500 when call patch() with repositry internal error (PATCH /periods/latest)', (done) => {
     const mock_period_repository = {
       get_latest() {
         return new Promise(resolve => resolve({}));
       },
       update() {
-        return new Promise((resolve, reject) => reject());
+        return new Promise((resolve, reject) => reject(new Error()));
       }
     };
     const mock_user_repository = {
@@ -287,96 +329,146 @@ describe('patch()', () => {
 
     controller.patch(mock_req, mock_res);
   });
-  //
-  // it('should get status: 400 when call patch() with incorrect result (PATCH /periods/latest)', (done) => {
-  //   const mock_period_repository = {
-  //     get_latest() {
-  //       return new Promise(resolve => resolve());
-  //     },
-  //     update() {
-  //       return new Promise(resolve => resolve({ n_modified: 1 }));
-  //     }
-  //   };
-  //   const mock_user_repository = {};
-  //   const mock_bet_repository = {};
-  //   const mock_req = {
-  //     body: {
-  //       result: {
-  //         six: 'six',
-  //         firstThree: 'firstThree',
-  //         secondThree: 'secondThree',
-  //         thirdThree: 'thirdThree',
-  //         fourthThree: 'fourthThree',
-  //         two: 'two'
-  //       }
-  //     },
-  //     params: {
-  //       query_type: 'latest'
-  //     }
-  //   };
-  //   const mock_res = {
-  //     status(code) {
-  //       expect(code).toBe(200);
-  //       return {
-  //         json(info) {
-  //           expect(info.n_modified).toBe(1);
-  //           done();
-  //         }
-  //       };
-  //     }
-  //   };
-  //   const controller = new PeriodController(
-  //     mock_period_repository,
-  //     mock_user_repository,
-  //     mock_bet_repository
-  //   );
-  //
-  //   controller.patch(mock_req, mock_res);
-  // });
-  //
-  // it('should get status: 200 when call patch() with result (PATCH /periods/latest)', (done) => {
-  //   const mock_period_repository = {
-  //     get_latest() {
-  //       return new Promise(resolve => resolve());
-  //     },
-  //     update() {
-  //       return new Promise(resolve => resolve({ n_modified: 1 }));
-  //     }
-  //   };
-  //   const mock_user_repository = {};
-  //   const mock_bet_repository = {};
-  //   const mock_req = {
-  //     body: {
-  //       result: {
-  //         six: '111111',
-  //         firstThree: '222',
-  //         secondThree: '333',
-  //         thirdThree: '444',
-  //         fourthThree: '555',
-  //         two: '66'
-  //       }
-  //     },
-  //     params: {
-  //       query_type: 'latest'
-  //     }
-  //   };
-  //   const mock_res = {
-  //     status(code) {
-  //       expect(code).toBe(200);
-  //       return {
-  //         json(info) {
-  //           expect(info.n_modified).toBe(1);
-  //           done();
-  //         }
-  //       };
-  //     }
-  //   };
-  //   const controller = new PeriodController(
-  //     mock_period_repository,
-  //     mock_user_repository,
-  //     mock_bet_repository
-  //   );
-  //
-  //   controller.patch(mock_req, mock_res);
-  // });
+
+  it('should get status: 400 when call patch() with period openning (PATCH /periods/latest)', (done) => {
+    const mock_period_repository = {
+      get_latest() {
+        return new Promise(resolve => resolve({ isOpen: true }));
+      },
+      update() {
+        return new Promise(resolve => resolve({}));
+      }
+    };
+    const mock_user_repository = {
+      find_by_id() {
+        return new Promise(resolve => resolve({ is_admin: true }));
+      }
+    };
+    const mock_req = {
+      user_id: 'user_id',
+      body: {},
+      params: {
+        query_type: 'latest'
+      }
+    };
+    const mock_res = {
+      status(code) {
+        expect(code).toBe(400);
+        return {
+          send(error) {
+            expect(error.message).toBe('Invalid operation: period is openning');
+            done();
+          }
+        };
+      }
+    };
+    const controller = new PeriodController(
+      mock_period_repository,
+      mock_user_repository
+    );
+
+    controller.patch(mock_req, mock_res);
+  });
+
+  it('should get status: 400 when call patch() with incorrect result (PATCH /periods/latest)', (done) => {
+    const mock_period_repository = {
+      get_latest() {
+        return new Promise(resolve => resolve({ isOpen: false }));
+      },
+      update() {
+        return new Promise((resolve, reject) =>
+          reject({
+            errors: [{ name: 'ValidatorError' }]
+          })
+        );
+      }
+    };
+    const mock_user_repository = {
+      find_by_id() {
+        return new Promise(resolve => resolve({ is_admin: true }));
+      }
+    };
+    const mock_req = {
+      user_id: 'user_id',
+      body: {
+        result: {
+          six: 'six',
+          firstThree: 'firstThree',
+          secondThree: 'secondThree',
+          thirdThree: 'thirdThree',
+          fourthThree: 'fourthThree',
+          two: 'two'
+        }
+      },
+      params: {
+        query_type: 'latest'
+      }
+    };
+    const mock_res = {
+      status(code) {
+        expect(code).toBe(400);
+        return {
+          send(error) {
+            expect(error.message).toBe('Invalid argument: result');
+            done();
+          }
+        };
+      }
+    };
+    const controller = new PeriodController(
+      mock_period_repository,
+      mock_user_repository
+    );
+
+    controller.patch(mock_req, mock_res);
+  });
+
+  it('should get status: 200 when call patch() with correct result (PATCH /periods/latest)', (done) => {
+    const mock_period_repository = {
+      get_latest() {
+        return new Promise(resolve => resolve({ isOpen: false }));
+      },
+      update() {
+        return new Promise(resolve => resolve({ n_modified: 1 }));
+      }
+    };
+    const mock_user_repository = {
+      find_by_id() {
+        return new Promise(resolve => resolve({ is_admin: true }));
+      }
+    };
+    const mock_req = {
+      user_id: 'user_id',
+      body: {
+        result: {
+          six: '111111',
+          firstThree: '222',
+          secondThree: '333',
+          thirdThree: '444',
+          fourthThree: '555',
+          two: '66'
+        }
+      },
+      params: {
+        query_type: 'latest'
+      }
+    };
+    const mock_res = {
+      status(code) {
+        expect(code).toBe(200);
+        return {
+          json(info) {
+            expect(info.n_modified).toBe(1);
+            done();
+          }
+        };
+      }
+    };
+    const controller = new PeriodController(
+      mock_period_repository,
+      mock_user_repository
+    );
+
+    controller.patch(mock_req, mock_res);
+  });
 });

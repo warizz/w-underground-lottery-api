@@ -55,9 +55,30 @@ function PeriodController(period_repository, user_repository, bet_repository) {
             .send(new Error('Invalid operation: period not found'));
         }
 
-        const data = {
-          isOpen: req.body.isOpen
-        };
+        if (period.isOpen) {
+          return res
+            .status(400)
+            .send(new Error('Invalid operation: period is openning'));
+        }
+
+        if (
+          Object.keys(req.body).length === 0 &&
+          req.body.constructor === Object
+        ) {
+          return res
+            .status(400)
+            .send(new Error('Invalid argument: request body is empty'));
+        }
+
+        const data = {};
+        const { isOpen, result } = req.body;
+        if (typeof isOpen === 'boolean') {
+          data.isOpen = isOpen;
+        }
+        if (result) {
+          data.result = result;
+        }
+
         period_repository
           .update(period.id, data)
           .then((info) => {
@@ -68,7 +89,18 @@ function PeriodController(period_repository, user_repository, bet_repository) {
               .status(400)
               .send(new Error('Invalid operation: period was not updated'));
           })
-          .catch(error => res.status(500).send(error));
+          .catch((exception) => {
+            const { errors = [] } = exception;
+            const validator_errors = errors.filter(
+              error => error.name === 'ValidatorError'
+            );
+            if (validator_errors.length > 0) {
+              return res
+                .status(400)
+                .send(new Error('Invalid argument: result'));
+            }
+            res.status(500).send(exception);
+          });
       });
     });
   };
