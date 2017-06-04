@@ -5,6 +5,6 @@ describe('Repository', () => {
 describe('Controller', () => {
   require('./controller/log_in');
   require('./controller/user');
-  require('./controller/period');
+  require('./controller/period/index');
 });
 require('./factory');

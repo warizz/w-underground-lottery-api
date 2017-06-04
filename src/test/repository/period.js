@@ -70,6 +70,13 @@ describe('Period', function() {
       .catch(done);
   });
 
+  it('should get an item when call find() with isOpen = false', (done) => {
+    _repository.find({ isOpen: true }).then((res) => {
+      expect(res.length).toBe(0);
+      done();
+    });
+  });
+
   it('should get an error when call update() with incorrect result', (done) => {
     const data = {
       result: {

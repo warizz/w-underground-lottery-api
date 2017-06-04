@@ -16,6 +16,7 @@ function PeriodRepository(schema) {
       const item = new schema();
       item.createdBy = data.createdBy;
       item.endedAt = data.endedAt;
+      item.isOpen = true;
       item.save().then(() => resolve()).catch(reject);
     });
   };
