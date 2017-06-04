@@ -35,6 +35,44 @@ function PeriodController(period_repository, user_repository, bet_repository) {
     });
   };
 
+  this.patch = function(req, res) {
+    if (!req.user_id) {
+      return res.status(401).send();
+    }
+    if (req.params.query_type !== 'latest') {
+      return res.status(400).send(new Error('Invalid argument: query_type'));
+    }
+
+    user_repository.find_by_id(req.user_id).then((user) => {
+      if (!user.isAdmin) {
+        return res.status(401).send();
+      }
+
+      period_repository.get_latest().then((period) => {
+        if (!period) {
+          return res
+            .status(400)
+            .send(new Error('Invalid operation: period not found'));
+        }
+
+        const data = {
+          isOpen: req.body.isOpen
+        };
+        period_repository
+          .update(period.id, data)
+          .then((info) => {
+            if (info.n_modified === 1) {
+              return res.status(200).json(info);
+            }
+            return res
+              .status(400)
+              .send(new Error('Invalid operation: period was not updated'));
+          })
+          .catch(error => res.status(500).send(error));
+      });
+    });
+  };
+
   this.post = function(req, res) {
     user_repository.find_by_id(req.user_id).then((user) => {
       if (!user.isAdmin) {
