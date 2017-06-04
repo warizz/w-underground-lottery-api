@@ -17,12 +17,48 @@ const PeriodSchema = new mongoose.Schema(
       required: true
     },
     result: {
-      six: String,
-      two: String,
-      firstThree: String,
-      secondThree: String,
-      thirdThree: String,
-      fourthThree: String
+      six: {
+        type: String,
+        validate: {
+          validator: v => /^\d{6}$/.test(v),
+          message: '{VALUE} must be ######'
+        }
+      },
+      two: {
+        type: String,
+        validate: {
+          validator: v => /^\d{2}$/.test(v),
+          message: '{VALUE} must be ##'
+        }
+      },
+      firstThree: {
+        type: String,
+        validate: {
+          validator: v => /^\d{3}$/.test(v),
+          message: '{VALUE} must be ###'
+        }
+      },
+      secondThree: {
+        type: String,
+        validate: {
+          validator: v => /^\d{3}$/.test(v),
+          message: '{VALUE} must be ###'
+        }
+      },
+      thirdThree: {
+        type: String,
+        validate: {
+          validator: v => /^\d{3}$/.test(v),
+          message: '{VALUE} must be ###'
+        }
+      },
+      fourthThree: {
+        type: String,
+        validate: {
+          validator: v => /^\d{3}$/.test(v),
+          message: '{VALUE} must be ###'
+        }
+      }
     }
   },
   {
