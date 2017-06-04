@@ -13,7 +13,7 @@ describe('patch()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: false }));
+        return new Promise(resolve => resolve({ is_admin: false }));
       }
     };
     const mock_req = {
@@ -40,7 +40,7 @@ describe('patch()', () => {
     controller.patch(mock_req, mock_res);
   });
 
-  it('should get status: 401 when call patch() with isAdmin = false (PATCH /periods/latest)', (done) => {
+  it('should get status: 401 when call patch() with is_admin = false (PATCH /periods/latest)', (done) => {
     const mock_period_repository = {
       get_latest() {
         return new Promise(resolve => resolve({}));
@@ -51,7 +51,7 @@ describe('patch()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: false }));
+        return new Promise(resolve => resolve({ is_admin: false }));
       }
     };
     const mock_req = {
@@ -90,7 +90,7 @@ describe('patch()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: true }));
+        return new Promise(resolve => resolve({ is_admin: true }));
       }
     };
     const mock_req = {
@@ -130,7 +130,7 @@ describe('patch()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: true }));
+        return new Promise(resolve => resolve({ is_admin: true }));
       }
     };
     const mock_req = {
@@ -172,7 +172,7 @@ describe('patch()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: true }));
+        return new Promise(resolve => resolve({ is_admin: true }));
       }
     };
     const mock_req = {
@@ -216,7 +216,7 @@ describe('patch()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: true }));
+        return new Promise(resolve => resolve({ is_admin: true }));
       }
     };
     const mock_req = {
@@ -257,7 +257,7 @@ describe('patch()', () => {
     };
     const mock_user_repository = {
       find_by_id() {
-        return new Promise(resolve => resolve({ isAdmin: true }));
+        return new Promise(resolve => resolve({ is_admin: true }));
       }
     };
     const mock_req = {

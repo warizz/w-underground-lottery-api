@@ -5,7 +5,7 @@ function PeriodController(period_repository, user_repository, bet_repository) {
 
       switch (query_type) {
       case 'latest':
-        if (!req.query.user && !user.isAdmin) {
+        if (!req.query.user && !user.is_admin) {
           return res.status(401).send();
         }
 
@@ -44,7 +44,7 @@ function PeriodController(period_repository, user_repository, bet_repository) {
     }
 
     user_repository.find_by_id(req.user_id).then((user) => {
-      if (!user.isAdmin) {
+      if (!user.is_admin) {
         return res.status(401).send();
       }
 
