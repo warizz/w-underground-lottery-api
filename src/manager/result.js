@@ -1,50 +1,57 @@
-const axios = require('axios');
-const Period = require('../models/period');
+const http = require('http');
 
 function ResultManager(period_repository) {
-  this.update = () => {
-    return new Promise((resolve, reject) => {
-      axios.get(process.env.RESULT_API).then((res) => {
-        if (!res.data) {
-          reject(new Error('No data from target'));
+  const _fetch_result = () =>
+    new Promise((resolve, reject) =>
+      http.get(process.env.RESULT_API, (response) => {
+        let body = '';
+        response.on('data', (chunk) => {
+          body += chunk;
+        });
+        response.on('end', () => resolve(body));
+        response.on('error', error => reject(error));
+      })
+    );
+
+  this.update = () =>
+    _fetch_result().then((res) => {
+      if (!res) {
+        throw new Error('No data from target');
+      }
+
+      period_repository.get_latest().then((doc) => {
+        if (!doc) {
+          throw new Error('Can not find any period');
         }
 
-        period_repository.get_latest().then((doc) => {
-          if (!doc) {
-            reject(new Error('Can not find any period'));
-          }
-          if (doc.result) {
-            resolve();
-          }
+        const res_obj = JSON.parse(res);
 
-          const { endedAt = new Date() } = doc;
-          const {
-            date,
-            six,
-            front_three_1,
-            front_three_2,
-            rear_three_1,
-            rear_three_2,
-            two,
-          } = res.data;
-          // only update to period end date match with result's date
-          if (endedAt.getTime() === new Date(date).getTime()) {
-            const update = {
-              result: {
-                six,
-                firstThree: front_three_1,
-                secondThree: front_three_2,
-                thirdThree: rear_three_1,
-                fourthThree: rear_three_2,
-                two,
-              },
-            };
-            return Period.where({ _id: doc.id }).findOne().update(update);
-          }
-        });
+        const { endedAt = new Date() } = doc;
+        const {
+          date,
+          six,
+          front_three_1,
+          front_three_2,
+          rear_three_1,
+          rear_three_2,
+          two,
+        } = res_obj;
+        // only update to period end date match with result's date
+        if (endedAt.getTime() === new Date(date).getTime()) {
+          const update = {
+            result: {
+              six,
+              firstThree: front_three_1,
+              secondThree: front_three_2,
+              thirdThree: rear_three_1,
+              fourthThree: rear_three_2,
+              two,
+            },
+          };
+          return period_repository.update(doc.id, update);
+        }
       });
     });
-  };
 }
 
 module.exports = ResultManager;
