@@ -120,7 +120,7 @@ function PeriodController(period_repository, user_repository, bet_repository) {
 
         const data = {
           endedAt: req.body.endedAt,
-          createdBy: req.user_id
+          createdBy: req.user_id,
         };
         period_repository
           .create(data)

@@ -7,7 +7,7 @@ function PeriodRepository(schema) {
       id: doc.id,
       endedAt: doc.endedAt,
       isOpen: doc.isOpen,
-      result: doc.result
+      result: doc.result,
     };
   }
 
