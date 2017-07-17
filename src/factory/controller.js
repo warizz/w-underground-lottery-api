@@ -1,9 +1,11 @@
 const { Period, User } = require('../models/index');
 const { PeriodRepository, UserRepository } = require('../repository/index');
+const { ResultManager } = require('../manager/index');
 const {
   LogInController,
   PeriodController,
-  UserController
+  UserController,
+  ResultController,
 } = require('../controller/index');
 
 function ControllerFactory() {}
@@ -24,10 +26,15 @@ ControllerFactory.prototype = {
       const user_repository = new UserRepository(User);
       return new PeriodController(period_repository, user_repository);
     }
+    case 'result': {
+      const period_repository = new PeriodRepository(Period);
+      const result_manager = new ResultManager(period_repository);
+      return new ResultController(result_manager);
+    }
     default:
       throw new Error('Invalid argument: name');
     }
-  }
+  },
 };
 
 module.exports = ControllerFactory;
