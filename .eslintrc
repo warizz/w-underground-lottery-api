@@ -2,7 +2,7 @@
   "plugins": [ "node" ],
   "extends": [ "eslint:recommended", "plugin:node/recommended" ],
   "rules": {
-    "comma-dangle": [ "error", "only-multiline" ],
+    "comma-dangle": [ "error", "always-multiline" ],
     "indent": [ "error", 2, { "MemberExpression": 1 } ],
     "key-spacing": "error",
     "node/exports-style": [ "error", "module.exports" ],
@@ -10,7 +10,8 @@
     "object-curly-spacing": [ "error", "always" ],
     "semi": [ "error", "always" ],
     "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
-    "space-infix-ops": ["error", { "int32Hint": false }]
+    "space-infix-ops": ["error", { "int32Hint": false }],
+    "quotes": ["error", "single"]
   },
   "globals": {
     "after": true,
