@@ -485,12 +485,6 @@ cors@^2.8.1:
   dependencies:
     vary "^1"
 
-cron@^1.2.1:
-  version "1.2.1"
-  resolved "https://wotproxy.webon.net/repository/webon-npm/cron/-/cron-1.2.1.tgz#3a86c09b41b8f261ac863a7cc85ea4735857eab2"
-  dependencies:
-    moment-timezone "^0.5.x"
-
 cryptiles@2.x.x:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/cryptiles/-/cryptiles-2.0.5.tgz#3bdfecdc608147c1c67202fa291e7dca59eaa3b8"
@@ -1938,16 +1932,6 @@ mockgoose@^7.3.1:
     portfinder "^1.0.13"
     rimraf "^2.6.1"
     uuid "^3.0.1"
-
-moment-timezone@^0.5.x:
-  version "0.5.13"
-  resolved "https://wotproxy.webon.net/repository/webon-npm/moment-timezone/-/moment-timezone-0.5.13.tgz#99ce5c7d827262eb0f1f702044177f60745d7b90"
-  dependencies:
-    moment ">= 2.9.0"
-
-"moment@>= 2.9.0":
-  version "2.18.1"
-  resolved "https://wotproxy.webon.net/repository/webon-npm/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
 mongodb-core@2.1.9:
   version "2.1.9"
