@@ -5,10 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "export NODE_ENV=development || SET NODE_ENV=development&& nodemon ./src/server.js",
+    "dev":
+      "export NODE_ENV=development || SET NODE_ENV=development&& nodemon ./src/server.js",
     "test": "mocha ./src/test/index.js",
-    "test-watch": "export NODE_ENV=test || SET NODE_ENV=test&& nodemon --exec npm run codecov",
-    "codecov": "export NODE_ENV=test || SET NODE_ENV=test&& istanbul cover ./node_modules/mocha/bin/_mocha src/test/index.js --report lcovonly -- -R spec"
+    "test-watch":
+      "export NODE_ENV=test || SET NODE_ENV=test&& nodemon --exec npm run codecov",
+    "codecov":
+      "export NODE_ENV=test || SET NODE_ENV=test&& istanbul cover ./node_modules/mocha/bin/_mocha src/test/index.js --report lcovonly -- -R spec"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +37,6 @@
     "mongoose": "^4.8.6"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   }
 }
