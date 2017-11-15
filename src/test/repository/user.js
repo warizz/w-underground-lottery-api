@@ -20,16 +20,35 @@ describe('User', function() {
     });
   });
 
-  it('should get data when call upsert() with correct data (insert)', (done) => {
+  it('should get an error when process.env.ALLOW_NEW_USER === false', (done) => {
     const user_data = {
       access_token: 'access_token',
       name: 'name',
       oauth_id: 'oauth_id',
       picture: {
         data: {
-          url: 'url'
-        }
-      }
+          url: 'url',
+        },
+      },
+    };
+    const user_repository = new UserRepository(User);
+    user_repository.upsert(user_data).catch((error) => {
+      expect(error.message).toEqual('New user not allowed');
+      done();
+    });
+  });
+
+  it('should get data when call upsert() with correct data (insert)', (done) => {
+    process.env.ALLOW_NEW_USER = true;
+    const user_data = {
+      access_token: 'access_token',
+      name: 'name',
+      oauth_id: 'oauth_id',
+      picture: {
+        data: {
+          url: 'url',
+        },
+      },
     };
     const user_repository = new UserRepository(User);
     user_repository
@@ -48,9 +67,9 @@ describe('User', function() {
       oauth_id: 'oauth_id',
       picture: {
         data: {
-          url: 'url'
-        }
-      }
+          url: 'url',
+        },
+      },
     };
     const user_repository = new UserRepository(User);
     user_repository

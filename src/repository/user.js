@@ -34,6 +34,10 @@ function UserRepository(user_schema) {
             return;
           }
 
+          if (!process.env.ALLOW_NEW_USER) {
+            return Promise.reject(new Error('New user not allowed'));
+          }
+
           const user = new user_schema();
           user.access_token = user_data.access_token;
           user.name = user_data.name;
@@ -50,7 +54,11 @@ function UserRepository(user_schema) {
 
   this.find_by_id = function(id) {
     return new Promise((resolve, reject) => {
-      user_schema.findById(id).then(normalise).then(resolve).catch(reject);
+      user_schema
+        .findById(id)
+        .then(normalise)
+        .then(resolve)
+        .catch(reject);
     });
   };
 
