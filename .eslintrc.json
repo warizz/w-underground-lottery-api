@@ -1,0 +1,26 @@
+{
+  "plugins": ["node"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "plugin:import/errors"
+  ],
+  "rules": {
+    "comma-dangle": [2, "always-multiline"],
+    "indent": [2, 2, { "MemberExpression": 1 }],
+    "key-spacing": 2,
+    "node/exports-style": [2, "module.exports"],
+    "no-trailing-spaces": 2,
+    "object-curly-spacing": [2, "always"],
+    "semi": [2, "always"],
+    "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
+    "space-infix-ops": [2, { "int32Hint": false }],
+    "quotes": [2, "single"]
+  },
+  "globals": {
+    "describe": true,
+    "it": true,
+    "expect": true,
+    "jest": true
+  }
+}
