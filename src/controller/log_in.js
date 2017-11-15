@@ -15,7 +15,7 @@ function LogInController(user_repository) {
             isAdmin: res.data.isAdmin,
             name: res.data.name,
             oauth_id: res.data.id,
-            picture: res.data.picture
+            picture: res.data.picture,
           };
           resolve(user);
         })

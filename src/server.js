@@ -1,13 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const Promise = require('bluebird');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const controllers = require('./controllers/index');
 const { ControllerFactory } = require('./factory/index');
 
-mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();

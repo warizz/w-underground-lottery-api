@@ -22,11 +22,11 @@ function UserRepository(user_schema) {
             user_schema
               .findByIdAndUpdate(
                 doc._id,
-              {
-                access_token: user_data.access_token,
-                name: user_data.name,
-                picture: user_data.picture.data.url,
-              },
+                {
+                  access_token: user_data.access_token,
+                  name: user_data.name,
+                  picture: user_data.picture.data.url,
+                },
                 { new: true }
               )
               .then(updated_doc => resolve(normalise(updated_doc)))

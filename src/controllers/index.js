@@ -11,5 +11,5 @@ module.exports = {
   history,
   period,
   summary,
-  user
+  user,
 };
