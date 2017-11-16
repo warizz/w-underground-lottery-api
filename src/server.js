@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const controllers = require('./controllers/index');
 const { ControllerFactory } = require('./factory/index');
+const Rollbar = require('rollbar');
+const logger = new Rollbar(process.env.ROLLBAR_ACCESS_KEY);
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -20,6 +22,25 @@ const period_controller = controller_factory.create('period');
 const result_controller = controller_factory.create('result');
 
 const router = express.Router();
+
+const FacebookProvider = require('./provider/Facebook');
+const FacebookSigninUsecase = require('./usecase/FacebookSignin');
+const axios = require('axios');
+
+router.route('/signin').post((req, res) => {
+  const { access_token } = req.body;
+  logger.debug(`/signin, access_token:${access_token}`);
+  const facebookProvider = new FacebookProvider(axios);
+  const usecase = new FacebookSigninUsecase(facebookProvider, {});
+
+  try {
+    const user = usecase.invoke(access_token);
+    res.status(200).json({ access_token: user.access_token });
+  } catch (e) {
+    logger.error(e);
+    res.status(401).send();
+  }
+});
 
 router
   .route('/bet')
