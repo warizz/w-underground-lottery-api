@@ -6,8 +6,8 @@ class MeUsecase {
     this.userRepository = userRepository;
   }
 
-  async invoke(user_id) {
-    return await this.userRepository.find_by_id(user_id);
+  invoke(user_id) {
+    return this.userRepository.find_by_id(user_id);
   }
 }
 
