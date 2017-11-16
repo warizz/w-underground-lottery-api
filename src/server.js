@@ -9,7 +9,8 @@ const Rollbar = require('rollbar');
 const logger = new Rollbar(process.env.LOGGER_ACCESS_KEY);
 logger.configure({ logLevel: process.env.LOGGER_LOG_LEVEL });
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.Promise = Promise;
+mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true });
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
