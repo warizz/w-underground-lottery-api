@@ -25,7 +25,7 @@ const BetSchema = new mongoose.Schema({
   price2: Number,
   price3: Number,
 }, {
-  timestamps: true
+  timestamps: true,
 });
 
 BetSchema.set('toJSON', { virtuals: true });

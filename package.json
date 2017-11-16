@@ -6,34 +6,28 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "export NODE_ENV=development || SET NODE_ENV=development&& nodemon ./src/server.js",
-    "test": "mocha ./src/test/index.js",
-    "test-watch": "export NODE_ENV=test || SET NODE_ENV=test&& nodemon --exec npm run codecov",
-    "codecov": "export NODE_ENV=test || SET NODE_ENV=test&& istanbul cover ./node_modules/mocha/bin/_mocha src/test/index.js --report lcovonly -- -R spec"
+    "lint": "eslint --fix --ext .js src/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "eslint": "^3.17.1",
-    "eslint-plugin-node": "^4.2.0",
-    "expect": "^1.20.2",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "mockgoose": "^7.3.1",
-    "nock": "^9.0.13",
-    "nodemon": "^1.11.0",
-    "supertest": "^3.0.0"
-  },
   "dependencies": {
-    "axios": "^0.15.3",
-    "bluebird": "^3.5.0",
-    "body-parser": "^1.17.1",
-    "cors": "^2.8.1",
-    "dotenv": "^4.0.0",
-    "express": "^4.15.2",
-    "mongoose": "^4.8.6"
+    "axios": "0.17.1",
+    "body-parser": "1.18.2",
+    "cors": "2.8.4",
+    "dotenv": "4.0.0",
+    "express": "4.16.2",
+    "mongoose": "4.13.2",
+    "rollbar": "^2.3.1"
+  },
+  "devDependencies": {
+    "eslint": "4.11.0",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-node": "5.2.1",
+    "jest": "21.2.1",
+    "nodemon": "1.12.1"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   }
 }

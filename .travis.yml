@@ -1,8 +1,11 @@
 language: node_js
 node_js:
-- '6'
-before_install:
-    - pip install --user codecov    #Install codecov
-after_success:
-    - yarn run codecov
-    - codecov
+- '8'
+deploy:
+  provider: heroku
+  api_key:
+    secure: N9+6UQrl7cg0v1LoBDNWn/VPZMXFfl/W2Yxx3BubPPhmIUjWdNV/GGcigEfElw20fLaQ3YlezQRMqIj3o2iqF+FtA62LDRAnMoHobfUgB7DsHLqH+TQShJJa21qb/xyIUwIuarKOkdjLOJGAKG+yYpyITzTgXFrShO6OF5AxFotxzYIgchmkuX3UjAChdw2W3obOQnyMRZb6pkuLC8rLJwI5j0TmL1EnsK6JQIV4VgezqwNX0Oou9M5kMmIvKKSrSb+sOH3WBX6CBdbf2RvR2XyfInipJhR3KKseQEZYApcezYM24KYhBD2x/E0k5DCEPe5TENs7DoQ/tvptFM9w9yI/Mbf6EHobufxBm79Zh7p1tVKYYFlpsVIuQmb4lASwH3YA5j3rHef+KaL3z0VexU9SrL/FESVrDYcYfpNuaZ2pFzDPZAtxoVK9Zl22WhnB84RoI3QhZs/FruJqoJB4IiO6tv2lH5G9PAjWQ5ja9zG0bNeWR4G0/jQdPy+E5xC6LJXHpD4vA/WDvVJXdYa13sqes9hngSnX+DVyCF9PWzjVe/LEYQ+uljXV+tmRKGyBCuzB6GR/hWZTKYa8ptQTsItY24B9k2iZv96cZMFO8GEftkHhXLEibHt05QppU1wYQBwCr5e9PWLEzYf/vi7ZCTG+vz0w7+k6tIzOcyt+pP0=
+  app: w-underground-lottery-api
+  on:
+    repo: warizz/w-underground-lottery-api
+    branch: master

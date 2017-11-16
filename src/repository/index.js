@@ -3,5 +3,5 @@ const UserRepository = require('./user');
 
 module.exports = {
   PeriodRepository,
-  UserRepository
+  UserRepository,
 };

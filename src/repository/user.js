@@ -22,11 +22,11 @@ function UserRepository(user_schema) {
             user_schema
               .findByIdAndUpdate(
                 doc._id,
-              {
-                access_token: user_data.access_token,
-                name: user_data.name,
-                picture: user_data.picture.data.url,
-              },
+                {
+                  access_token: user_data.access_token,
+                  name: user_data.name,
+                  picture: user_data.picture.data.url,
+                },
                 { new: true }
               )
               .then(updated_doc => resolve(normalise(updated_doc)))
@@ -53,24 +53,14 @@ function UserRepository(user_schema) {
   };
 
   this.find_by_id = function(id) {
-    return new Promise((resolve, reject) => {
-      user_schema
-        .findById(id)
-        .then(normalise)
-        .then(resolve)
-        .catch(reject);
-    });
+    return user_schema.findById(id).then(normalise);
   };
 
   this.find_by_token = function(access_token) {
-    return new Promise((resolve, reject) => {
-      user_schema
-        .where({ access_token })
-        .findOne()
-        .then(normalise)
-        .then(resolve)
-        .catch(reject);
-    });
+    return user_schema
+      .where({ access_token })
+      .findOne()
+      .then(normalise);
   };
 }
 

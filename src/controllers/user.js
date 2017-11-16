@@ -26,7 +26,7 @@ function facebookProfileGetter(access_token) {
           isAdmin: res.data.isAdmin,
           name: res.data.name,
           oauth_id: res.data.id,
-          picture: res.data.picture
+          picture: res.data.picture,
         };
         resolve(user);
       })
@@ -53,9 +53,9 @@ function fakeProfileGetter(access_token) {
       oauth_id: 'awefawefaewfaf',
       picture: {
         data: {
-          url: 'https://scontent.fbkk1-4.fna.fbcdn.net/v/t1.0-9/13151495_10153419716527676_5289925877114749609_n.jpg'
-        }
-      }
+          url: 'https://scontent.fbkk1-4.fna.fbcdn.net/v/t1.0-9/13151495_10153419716527676_5289925877114749609_n.jpg',
+        },
+      },
     });
   });
 }
@@ -145,5 +145,5 @@ module.exports = {
   logOut,
   post,
   saveUserData,
-  validateToken
+  validateToken,
 };
