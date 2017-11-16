@@ -6,7 +6,8 @@ const cors = require('cors');
 const controllers = require('./controllers/index');
 const { ControllerFactory } = require('./factory/index');
 const Rollbar = require('rollbar');
-const logger = new Rollbar(process.env.ROLLBAR_ACCESS_KEY);
+const logger = new Rollbar(process.env.LOGGER_ACCESS_KEY);
+logger.configure({ logLevel: process.env.LOGGER_LOG_LEVEL });
 
 mongoose.connect(process.env.MONGODB_URI);
 
