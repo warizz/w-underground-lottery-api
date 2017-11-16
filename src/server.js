@@ -39,10 +39,13 @@ router.route('/signin').post(async (req, res) => {
 
   try {
     const access_token = await usecase.invoke(short_lived_token);
-    res.status(200).json({ access_token });
+    if (!access_token) {
+      return res.status(401).send();
+    }
+    return res.status(200).json({ access_token });
   } catch (e) {
     logger.error(e);
-    res.status(401).send();
+    return res.status(500).send();
   }
 });
 
@@ -56,10 +59,13 @@ router
 
     try {
       const user = await usecase.invoke(user_id);
-      res.status(200).json(user);
+      if (!user) {
+        return res.status(401).send();
+      }
+      return res.status(200).json(user);
     } catch (e) {
       logger.error(e);
-      res.status(401).send();
+      return res.status(500).send();
     }
   });
 
