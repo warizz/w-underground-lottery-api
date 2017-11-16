@@ -26,22 +26,42 @@ const router = express.Router();
 
 const FacebookProvider = require('./provider/Facebook');
 const FacebookSigninUsecase = require('./usecase/FacebookSignin');
+const MeUsecase = require('./usecase/Me');
+const { User } = require('./models/index');
+const { UserRepository } = require('./repository/index');
 const axios = require('axios');
 
-router.route('/signin').post((req, res) => {
-  const { access_token } = req.body;
-  logger.debug(`/signin, access_token:${access_token}`);
+router.route('/signin').post(async (req, res) => {
+  const short_lived_token = req.body.access_token;
   const facebookProvider = new FacebookProvider(axios);
-  const usecase = new FacebookSigninUsecase(facebookProvider, {});
+  const userRepository = new UserRepository(User);
+  const usecase = new FacebookSigninUsecase(facebookProvider, userRepository);
 
   try {
-    const user = usecase.invoke(access_token);
-    res.status(200).json({ access_token: user.access_token });
+    const access_token = await usecase.invoke(short_lived_token);
+    res.status(200).json({ access_token });
   } catch (e) {
     logger.error(e);
     res.status(401).send();
   }
 });
+
+router
+  .route('/me')
+  .all(user_controller.authentication_middleware)
+  .get(async (req, res) => {
+    const { user_id } = req;
+    const userRepository = new UserRepository(User);
+    const usecase = new MeUsecase(userRepository);
+
+    try {
+      const user = await usecase.invoke(user_id);
+      res.status(200).json(user);
+    } catch (e) {
+      logger.error(e);
+      res.status(401).send();
+    }
+  });
 
 router
   .route('/bet')
@@ -64,11 +84,6 @@ router
   .route('/history')
   .all(user_controller.authentication_middleware)
   .get(controllers.history.get);
-
-router
-  .route('/me')
-  .all(user_controller.authentication_middleware)
-  .get(user_controller.get);
 
 router.route('/log_in').post(log_in_controller.post);
 

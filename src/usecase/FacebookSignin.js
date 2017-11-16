@@ -1,3 +1,6 @@
+/**
+ * To get Facebook access token and store user data
+ */
 class FacebookSigninUsecase {
   constructor(facebookProvider, userRepository) {
     this.facebookProvider = facebookProvider;
