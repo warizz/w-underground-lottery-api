@@ -4,7 +4,7 @@ const ResultGateway = (axios) => {
       return axios
         .request({
           method: 'GET',
-          baseURL: 'https://lottery-result-crawler.herokuapp.com/api',
+          baseURL: process.env.RESULT_API_URL,
           url: '/latest',
         })
         .then(res => res.data);
