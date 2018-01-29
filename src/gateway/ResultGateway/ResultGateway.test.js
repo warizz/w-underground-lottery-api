@@ -12,9 +12,7 @@ describe('getLatest', () => {
       two: '50',
     };
     const mockAxios = {
-      request() {
-        return Promise.resolve({ data: mockResult });
-      },
+      request: () => Promise.resolve({ data: mockResult }),
     };
     const result = await Uut(mockAxios).getLatest();
     expect(result).toEqual(mockResult);
