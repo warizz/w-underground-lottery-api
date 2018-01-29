@@ -28,8 +28,9 @@ const router = express.Router();
 const FacebookProvider = require('./provider/Facebook');
 const FacebookSigninUsecase = require('./usecase/FacebookSignin');
 const MeUsecase = require('./usecase/Me');
-const { User } = require('./models/index');
-const { UserRepository } = require('./repository/index');
+const { User, Period } = require('./models/index');
+const { PeriodRepository, UserRepository } = require('./repository/index');
+const ResultGateway = require('./gateway/ResultGateway');
 const axios = require('axios');
 
 router.route('/signin').post(async (req, res) => {
@@ -109,6 +110,20 @@ router
   .route('/period/:id')
   .all(user_controller.authentication_middleware)
   .patch(controllers.period.patch);
+
+const GetPeriodsResultsUseCase = require('./usecase/GetPeriodsResultsUseCase');
+router
+  .route('/periods/:id/results')
+  .all(user_controller.authentication_middleware)
+  .get(async (req, res) => {
+    const periodId = req.params.id;
+    const resultGateway = ResultGateway(axios);
+    const periodRepository = new PeriodRepository(Period);
+    const useCase = GetPeriodsResultsUseCase({ resultGateway, periodRepository });
+
+    await useCase.invoke(periodId);
+    return res.status(200).send();
+  });
 
 router
   .route('/summary/:period_id')
