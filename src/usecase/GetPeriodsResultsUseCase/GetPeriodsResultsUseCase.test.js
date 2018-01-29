@@ -9,8 +9,8 @@ describe('invoke', () => {
     const periodRepository = {
       update: jest.fn(async () => {}),
     };
-    const useCase = Uut({ periodId: 'mock-id', resultGateway, periodRepository });
-    await useCase.invoke();
+    const useCase = Uut({ resultGateway, periodRepository });
+    await useCase.invoke('mock-id');
     expect(resultGateway.getLatest).toHaveBeenCalledTimes(1);
     expect(periodRepository.update).toHaveBeenCalledWith('mock-id', { result: mockResult });
   });
